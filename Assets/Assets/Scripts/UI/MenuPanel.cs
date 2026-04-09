@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class MenuPanel : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private UIManager _uiManager => GameManager.Instance.UIManager;
+
+    public void OnStartBtn()
     {
-        
+        _uiManager.SetGamePanel();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnTutorialBtn()
     {
-        
+        _uiManager.SetTutorialPanel();
+    }
+
+    public void OnQuitBtn()
+    {
+        Application.Quit();
+    }
+
+    public void OnSettingBtn()
+    {
+        _uiManager.SetSettingPanel(true);
     }
 }

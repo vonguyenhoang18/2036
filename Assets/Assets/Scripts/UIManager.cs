@@ -3,6 +3,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private MenuPanel menuPanel;
+    [SerializeField] private TutorialPanel tutorialPanel;
     [SerializeField] private GamePanel gamePanel;
     [SerializeField] private SettingPanel settingPanel;
     [SerializeField] private ResultPanel resultPanel;
@@ -10,7 +11,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        SetLoadingPanel();
+        //SetLoadingPanel();
         //loadingPanel.UpdateProgress(100f, 3f); // Loading to 100% in 3 secs
     }
 
@@ -19,6 +20,10 @@ public class UIManager : MonoBehaviour
         if (menuPanel.gameObject.activeInHierarchy)
         {
             menuPanel.gameObject.SetActive(false);
+        }
+        if (tutorialPanel.gameObject.activeInHierarchy)
+        {
+            tutorialPanel.gameObject.SetActive(false);
         }
         if (gamePanel.gameObject.activeInHierarchy)
         {
@@ -44,7 +49,13 @@ public class UIManager : MonoBehaviour
         menuPanel.gameObject.SetActive(true);
     }
 
-    private void SetGamePanel()
+    public void SetTutorialPanel()
+    {
+        DisableAllUI();
+        tutorialPanel.gameObject.SetActive(true);
+    }
+
+    public void SetGamePanel()
     {
         DisableAllUI();
         gamePanel.gameObject.SetActive(true);
@@ -63,10 +74,9 @@ public class UIManager : MonoBehaviour
         //resultPanel.SetResult(isWin);
     }
 
-    private void SetLoadingPanel()
+    public void SetLoadingPanel(bool isActive)
     {
-        DisableAllUI();
-        loadingPanel.gameObject.SetActive(true);
+        loadingPanel.gameObject.SetActive(isActive);
     }
 
     public void StartGame()

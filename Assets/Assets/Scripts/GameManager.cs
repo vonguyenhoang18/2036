@@ -23,6 +23,12 @@ public class GameManager : MonoBehaviour
 
     public InputManager InputManager => inputManager;
 
+    public MapManager MapManager => mapManager;
+
+    public CharacterManager CharacterManager => characterManager;
+
+    public AudioManager AudioManager => audioManager;
+
     void Awake()
     {
         if (instance)
