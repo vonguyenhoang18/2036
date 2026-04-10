@@ -8,11 +8,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private SettingPanel settingPanel;
     [SerializeField] private ResultPanel resultPanel;
     [SerializeField] private LoadingPanel loadingPanel;
+    
+    private MapManager mapManager => GameManager.Instance.MapManager;
 
     private void Awake()
     {
-        //SetLoadingPanel();
-        //loadingPanel.UpdateProgress(100f, 3f); // Loading to 100% in 3 secs
+        SetMenuPanel();
     }
 
     private void DisableAllUI()
@@ -59,7 +60,7 @@ public class UIManager : MonoBehaviour
     {
         DisableAllUI();
         gamePanel.gameObject.SetActive(true);
-        //gamePanel.GenerateLevel();
+        mapManager.InitDangerZoneMap();
     }
 
     public void SetSettingPanel(bool isActive)

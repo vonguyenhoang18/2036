@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private DangerZone dangerZone;
+    // [SerializeField] private SafeZone safeZone;
+    
+    public void InitDangerZoneMap()
     {
-        
+        dangerZone.InitMap();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InitSafeZoneMap()
     {
         
     }
