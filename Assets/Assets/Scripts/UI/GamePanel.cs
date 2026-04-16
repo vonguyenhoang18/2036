@@ -1,16 +1,33 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePanel : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Image healthImg;
+    [SerializeField] private TextMeshProUGUI maskStateTxt;
+    [SerializeField] private TextMeshProUGUI medkitCountTxt;
+
+    private UIManager _uiManager => GameManager.Instance.UIManager;
+
+    public void OnPauseBtn()
     {
-        
+        _uiManager.SetSettingPanel(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateMaskState(bool state)
     {
-        
+        maskStateTxt.SetText(state ? "Mask: On" : "Mask: Off");
+    }
+
+    public void UpdateMedkitCount(int count)
+    {
+        medkitCountTxt.SetText($"{count}");
+    }
+
+    public void UpdateHealthBar(float percentage)
+    {
+        healthImg.fillAmount = percentage;
     }
 }
