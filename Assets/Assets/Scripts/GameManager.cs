@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemManager itemManager;
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private AudioManager audioManager;
+    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private InventoryManager inventoryManager;
 
     public UIManager UIManager => uiManager;
 
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     public CharacterManager CharacterManager => characterManager;
 
     public AudioManager AudioManager => audioManager;
+    public LevelManager LevelManager => levelManager;
+    public InventoryManager InventoryManager => inventoryManager;
 
     void Awake()
     {
