@@ -10,6 +10,7 @@ public class MapObject : MonoBehaviour
     [SerializeField] private GameObject exitPrefab;
     [SerializeField] private GameObject medkitPrefab;
     [SerializeField] private GameObject[] objectsPrefab;
+    [SerializeField] private GameObject edgePrefab;
 
     private bool _isDebug = false;
     private ObjectType _itemType = ObjectType.Unknown;
@@ -41,6 +42,9 @@ public class MapObject : MonoBehaviour
             case ObjectType.Obstacle:
                 var randomIndex = Random.Range(0, objectsPrefab.Length);
                 Instantiate(objectsPrefab[randomIndex], content);
+                break;
+            case ObjectType.Edge:
+                Instantiate(edgePrefab, content);
                 break;
         }
     }

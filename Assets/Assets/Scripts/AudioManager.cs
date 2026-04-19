@@ -11,6 +11,7 @@ public enum AudioType
     s_maskChange,
     s_pickUp,
     s_breathing,
+    s_walking,
     s_winGame,
     s_loseGame,
     //Music
@@ -35,6 +36,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip s_maskChange;
     [SerializeField] private AudioClip s_pickUp;
     [SerializeField] private AudioClip s_breathing;
+    [SerializeField] private AudioClip s_walking;
     
     [SerializeField] private AudioClip s_winGame;
     [SerializeField] private AudioClip s_loseGame;
@@ -90,6 +92,34 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayLoopSound(AudioType type)
+    {
+        AudioClip clip = GetAudioClip(type);
+        if (clip != null)
+        {
+            PlayLoopSound(clip);
+        }
+    }
+
+    public void StopSound(AudioType type)
+    {
+        AudioClip clip = GetAudioClip(type);
+        if (clip != null)
+        {
+            StopSound(clip);
+        }
+    }
+
+    public bool IsPlaying(AudioType type)
+    {
+        AudioClip clip = GetAudioClip(type);
+        if (clip != null)
+        {
+            return IsPlaying(clip);
+        }
+        return false;
+    }
+
     public void PlayMusic(AudioType type)
     {
         AudioClip clip = GetAudioClip(type);
@@ -109,6 +139,7 @@ public class AudioManager : MonoBehaviour
             case AudioType.s_maskChange: return s_maskChange;
             case AudioType.s_pickUp: return s_pickUp;
             case AudioType.s_breathing: return s_breathing;
+            case AudioType.s_walking: return s_walking;
             case AudioType.s_winGame: return s_winGame;
             case AudioType.s_loseGame: return s_loseGame;
             case AudioType.m_gameplay: return m_gameplay;
@@ -159,6 +190,30 @@ public class AudioManager : MonoBehaviour
     {
         if (clip == null || !_soundEnabled) return;
         soundSource.PlayOneShot(clip, soundVolume);
+    }
+
+    public void PlayLoopSound(AudioClip clip)
+    {
+        if (clip == null || !_soundEnabled) return;
+        soundSource.clip = clip;
+        soundSource.loop = true;
+        soundSource.Play();
+    }
+
+    public void StopSound(AudioClip clip)
+    {
+        if (clip == null) return;
+        if (soundSource.clip == clip && soundSource.isPlaying)
+        {
+            soundSource.Stop();
+            soundSource.clip = null;
+            soundSource.loop = false;
+        }
+    }
+
+    public bool IsPlaying(AudioClip clip)
+    {
+        return clip != null && soundSource.clip == clip && soundSource.isPlaying;
     }
 
     public void PlayMusic(AudioClip clip)

@@ -71,6 +71,17 @@ public class CharacterManager : MonoBehaviour
         movement = movement.normalized;
         character.position += movement * GameConstant.PLAYER_SPEED * Time.deltaTime;
         characterAnimator.SetFloat("Speed", movement.magnitude);
+        if (movement.magnitude > 0)
+        {
+            // Only play if not already playing
+            if (!_audioManager.IsPlaying(AudioType.s_walking))
+                _audioManager.PlayLoopSound(AudioType.s_walking);
+        }
+        else
+        {
+            // Stop when idle
+            _audioManager.StopSound(AudioType.s_walking);
+        }
     }
 
     public void DrainHpOverTime()
@@ -137,6 +148,7 @@ public class CharacterManager : MonoBehaviour
 
     public void PlayHealingEffect()
     {
+        _audioManager.PlaySound(AudioType.s_healing);
         healingEffect.Play();
     }
 

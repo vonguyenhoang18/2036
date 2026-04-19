@@ -5,35 +5,48 @@ public class DangerZone : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab;
     [SerializeField] private Transform itemMap;
+    [SerializeField] private LevelDataConfig levelDataConfig;
     
-    private const int COLUMN_SIZE = 21;
-    private const int ROW_SIZE = 21;
-    private const int MEDKIT_COUNT = 5;
-    private const int OBSTACLE_COUNT = 50;
     private const int ITEM_GAP = 3;
     
-    private MapObject[,] _map = new MapObject[COLUMN_SIZE, ROW_SIZE];
+    private MapObject[,] _map;
     private List<(int x, int y)> _objectCoordinates = new();
+    private LevelData _currentLevelData;
 
     private LevelManager _levelManager => GameManager.Instance.LevelManager;
 
     public void InitMap()
     {
+        _currentLevelData = levelDataConfig.GetLevelData(_levelManager.CurrentLevel);
+        ClearMap();
         GenerateGrid();
         _levelManager.StartLevel();
     }
 
+    private void ClearMap()
+    {
+        foreach (Transform child in itemMap)
+        {
+            Destroy(child.gameObject);
+        }
+        _objectCoordinates.Clear();
+    }
+
     private void GenerateGrid()
     {
-        float totalWidth = (COLUMN_SIZE - 1) * ITEM_GAP;
-        float totalHeight = (ROW_SIZE - 1) * ITEM_GAP;
+        int columns = _currentLevelData.columns;
+        int rows = _currentLevelData.rows;
+
+        _map = new MapObject[columns, rows];
+        float totalWidth = (columns - 1) * ITEM_GAP;
+        float totalHeight = (rows - 1) * ITEM_GAP;
         float xOffset = totalWidth / 2f;
         float yOffset = totalHeight / 2f;
         int id = 1;
         
-        for (int j = 0; j < ROW_SIZE; j++)
+        for (int j = 0; j < _currentLevelData.rows; j++)
         {
-            for (int i = 0; i < COLUMN_SIZE; i++)
+            for (int i = 0; i < columns; i++)
             {
                 var item = Instantiate(itemPrefab, itemMap);
                 float xPos = i * ITEM_GAP - xOffset;
@@ -45,10 +58,11 @@ public class DangerZone : MonoBehaviour
                 _map[i, j] = mapItem;
                 
                 // The edge of the map is red, with the size is 1
-                if (i == COLUMN_SIZE - 1 || i == 0 || 
-                    j == ROW_SIZE - 1 || j == 0)
+                if (i == columns - 1 || i == 0 || 
+                    j == rows - 1 || j == 0)
                 {
                     mapItem.SetColor(Color.red);
+                    mapItem.InitItem(ObjectType.Edge);
                 }
                 // The center of the map is yellow, with the size is 3x3
                 else if (IsCenterCoordinates(i, j))
@@ -69,8 +83,11 @@ public class DangerZone : MonoBehaviour
 
     private void InitExit()
     {
-        float centerX = COLUMN_SIZE / 2f;
-        float centerY = ROW_SIZE / 2f;
+        int columns = _currentLevelData.columns;
+        int rows = _currentLevelData.rows;
+
+        float centerX = columns / 2f;
+        float centerY = rows / 2f;
 
         // Max distance from center to corner (excluding edge border)
         float maxDist = Vector2.Distance(
@@ -109,8 +126,10 @@ public class DangerZone : MonoBehaviour
 
     private void InitMedKit()
     {
+        int medkitCount = _currentLevelData.medkitCount;
+
         // Randomly select MEDKIT_COUNT coordinates and set to blue
-        for (int k = 0; k < MEDKIT_COUNT && _objectCoordinates.Count > 0; k++)
+        for (int k = 0; k < medkitCount && _objectCoordinates.Count > 0; k++)
         {
             int randomIndex = Random.Range(0, _objectCoordinates.Count);
             var (x, y) = _objectCoordinates[randomIndex];
@@ -122,8 +141,10 @@ public class DangerZone : MonoBehaviour
 
     private void InitObstacles()
     {
+        int obstacleCount = _currentLevelData.obstacleCount;
+
         // Randomly select ITEM_COUNT coordinates and set to green
-        for (int k = 0; k < OBSTACLE_COUNT && _objectCoordinates.Count > 0; k++)
+        for (int k = 0; k < obstacleCount && _objectCoordinates.Count > 0; k++)
         {
             int randomIndex = Random.Range(0, _objectCoordinates.Count);
             var (x, y) = _objectCoordinates[randomIndex];
@@ -135,7 +156,10 @@ public class DangerZone : MonoBehaviour
 
     private bool IsCenterCoordinates(int col, int row)
     {
-        Vector2 center = new Vector2(COLUMN_SIZE / 2f, ROW_SIZE / 2f);
+        int columns = _currentLevelData.columns;
+        int rows = _currentLevelData.rows;
+
+        Vector2 center = new Vector2(columns / 2f, rows / 2f);
         HashSet<(int, int)> centerOffsets = new()
         {
             ((int)center.x, (int)center.y),

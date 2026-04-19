@@ -632,7 +632,7 @@ MonoBehaviour:
   character: {fileID: 1963016697}
   characterRenderer: {fileID: 1755979200}
   characterAnimator: {fileID: 1755979201}
-  healingEffect: {fileID: 0}
+  healingEffect: {fileID: 1291440252}
 --- !u!1 &159554541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,6 +1794,7 @@ MonoBehaviour:
   s_maskChange: {fileID: 8300000, guid: ad9bd15153bf4e3488bb3e9b8e0e3096, type: 3}
   s_pickUp: {fileID: 8300000, guid: ab1f685d51cf15a4c9a13581f0868659, type: 3}
   s_breathing: {fileID: 8300000, guid: e45c672c0e606674abe3e969c3fc876b, type: 3}
+  s_walking: {fileID: 8300000, guid: 9b1a31f6e5221a1459b2352fd11f40b7, type: 3}
   s_winGame: {fileID: 8300000, guid: 07b0cdcc987ba8b41b7c140d5e546531, type: 3}
   s_loseGame: {fileID: 8300000, guid: f336f0c28f269d74ba8344770f9b2275, type: 3}
   m_gameplay: {fileID: 8300000, guid: 17cad4b019b3c5b4588b6315cfc78d6f, type: 3}
@@ -4567,6 +4568,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5270293092982160317, guid: 31b7e818b1c9ab8458e851630289e0d5, type: 3}
   m_PrefabInstance: {fileID: 1291440250}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1291440252 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5192195344936801475, guid: 31b7e818b1c9ab8458e851630289e0d5, type: 3}
+  m_PrefabInstance: {fileID: 1291440250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1312257688
 GameObject:
   m_ObjectHideFlags: 0
@@ -5059,7 +5065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1500488865
 Transform:
   m_ObjectHideFlags: 0
@@ -5490,6 +5496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Map
   itemPrefab: {fileID: 9112963923422539357, guid: 5aeb95d4bc7d34d97aa91eb71d466020, type: 3}
   itemMap: {fileID: 165131588}
+  levelDataConfig: {fileID: 11400000, guid: e40bec4eda50f4d4881c83e9f6a03788, type: 2}
 --- !u!1 &1750194463
 GameObject:
   m_ObjectHideFlags: 0
@@ -5620,7 +5627,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 661db1d7d239240cb988e0a284cce2c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
