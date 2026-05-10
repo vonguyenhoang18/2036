@@ -12,20 +12,29 @@ public class CharacterManager : MonoBehaviour
     private float _drainTimer = 0f;
     private float _damagedTimer = 0f;
 
+    private UIManager _uiManager => GameManager.Instance.UIManager;
+    private InputManager _inputManager => GameManager.Instance.InputManager;
+    private MapManager _mapManager => GameManager.Instance.MapManager;
+    private ItemManager _itemManager => GameManager.Instance.ItemManager;
+    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
     private AudioManager _audioManager => GameManager.Instance.AudioManager;
-    private LevelManager _levelManager => GameManager.Instance.LevelManager;
     private InventoryManager _inventoryManager => GameManager.Instance.InventoryManager;
 
     public float CurrentHp { get; private set; }
     public bool IsMaskOn { get; private set; }
 
-    public void CharacterInit()
+    private void Update()
+    {
+        DrainHpOverTime();
+    }
+
+    public void Init()
     {
         IsMaskOn = false;
         _isDamaged = false;
         _drainTimer = 0f;
         _damagedTimer = 0f;
-        transform.position = Vector3.zero;
+        character.position = Vector3.zero;
         
 
         SetMaskState();
@@ -48,6 +57,7 @@ public class CharacterManager : MonoBehaviour
     private void SetHp(float hp)
     {
         CurrentHp = Mathf.Clamp(hp, 0, GameConstant.MAX_HP);
+        _uiManager.DangerZonePanel.UpdateHealthBar(CurrentHp / GameConstant.MAX_HP);
     }
 
     public void ChangeDirection(Direction direction)
@@ -74,13 +84,13 @@ public class CharacterManager : MonoBehaviour
         if (movement.magnitude > 0)
         {
             // Only play if not already playing
-            if (!_audioManager.IsPlaying(AudioType.s_walking))
+            if (!_audioManager.IsLoopPlaying(AudioType.s_walking))
                 _audioManager.PlayLoopSound(AudioType.s_walking);
         }
         else
         {
             // Stop when idle
-            _audioManager.StopSound(AudioType.s_walking);
+            _audioManager.StopLoopSound(AudioType.s_walking);
         }
     }
 
@@ -129,8 +139,9 @@ public class CharacterManager : MonoBehaviour
 
     public void AddHp(float amount)
     {
-        CurrentHp = Mathf.Clamp(CurrentHp + amount, 0, GameConstant.MAX_HP);
-        if (CurrentHp == 0)
+        float currentHp = Mathf.Clamp(CurrentHp + amount, 0, GameConstant.MAX_HP);
+        SetHp(currentHp);
+        if (currentHp == 0)
         {
             TriggerLoseLevel();
         }
@@ -146,25 +157,31 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void PlayHealingEffect()
+    public void UseHealing()
     {
-        _audioManager.PlaySound(AudioType.s_healing);
-        healingEffect.Play();
+        if (_inventoryManager.CanUseMedkit())
+        {
+            _audioManager.PlaySound(AudioType.s_healing);
+            _inventoryManager.UseMedkit();
+            healingEffect.Play();
+
+            AddHp(GameConstant.HEALING_AMOUNT);
+        }
     }
 
     public void TriggerWinLevel()
     {
-        _levelManager.WinLevel();
+        _mapManager.WinLevel();
     }
 
     private void TriggerLoseLevel()
     {
-        _levelManager.LoseLevel();
+        _mapManager.LoseLevel();
     }
 
     public void AddItemCount()
     {
         _audioManager.PlaySound(AudioType.s_pickUp);
-        _inventoryManager.AddItemCount();
+        _inventoryManager.AddMedkit();
     }
 }

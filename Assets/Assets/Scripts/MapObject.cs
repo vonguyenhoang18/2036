@@ -11,6 +11,7 @@ public class MapObject : MonoBehaviour
     [SerializeField] private GameObject medkitPrefab;
     [SerializeField] private GameObject[] objectsPrefab;
     [SerializeField] private GameObject edgePrefab;
+    [SerializeField] private GameObject npcAPrefab;
 
     private bool _isDebug = false;
     private ObjectType _itemType = ObjectType.Unknown;
@@ -45,6 +46,12 @@ public class MapObject : MonoBehaviour
                 break;
             case ObjectType.Edge:
                 Instantiate(edgePrefab, content);
+                break;
+            case ObjectType.NPCA:
+                GameObject npcA = Instantiate(npcAPrefab, content);
+                Vector3 scale = npcA.transform.localScale;
+                scale.x = transform.position.x > 0 ? -1 : 1;
+                npcA.transform.localScale = scale;
                 break;
         }
     }

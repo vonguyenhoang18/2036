@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         CharacterMove();
+        ChangeMaskState();
+        UseHealing();
     }
 
     private void CharacterMove()
@@ -30,5 +32,21 @@ public class InputManager : MonoBehaviour
         if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) y = -1f;
 
         _characterManager.ChangeSpeed(x, y);
+    }
+
+    private void ChangeMaskState()
+    {
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            _characterManager.ChangeMaskState();
+        }
+    }
+
+    private void UseHealing()
+    {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            _characterManager.UseHealing();
+        }
     }
 }

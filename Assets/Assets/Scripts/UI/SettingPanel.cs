@@ -24,6 +24,7 @@ public class SettingPanel : MonoBehaviour
 
     public void OnMusicBtn()
     {
+        _audioManager.PlaySound(AudioType.s_click);
         _musicEnable = !_musicEnable;
         _audioManager.ToggleMusic(_musicEnable);
         UpdateMusicIcon();
@@ -31,6 +32,7 @@ public class SettingPanel : MonoBehaviour
 
     public void OnSoundBtn()
     {
+        _audioManager.PlaySound(AudioType.s_click);
         _soundEnable = !_soundEnable;
         _audioManager.ToggleSound(_soundEnable);
         UpdateSoundIcon();
@@ -38,6 +40,7 @@ public class SettingPanel : MonoBehaviour
 
     public void OnCloseBtn()
     {
+        _audioManager.PlaySound(AudioType.s_click);
         GameManager.Instance.UIManager.SetSettingPanel(false);
     }
 

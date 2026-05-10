@@ -417,3 +417,4 @@ MonoBehaviour:
   - {fileID: 1996918701158790540, guid: dfd21d4338816164dad750ff4046cf67, type: 3}
   - {fileID: 8868148606405033415, guid: 1a3f0b475c55add4a8bfd7687512a7fe, type: 3}
   edgePrefab: {fileID: 5904871714699418715, guid: 72529cd01a6cab342a40c95ac47fc629, type: 3}
+  npcAPrefab: {fileID: 1743650305811957967, guid: 490e755cbb3ca92488d53425fb5139c3, type: 3}

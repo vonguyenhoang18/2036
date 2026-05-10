@@ -1,18 +1,19 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GamePanel : MonoBehaviour
+public class DangerZonePanel : MonoBehaviour
 {
     [SerializeField] private Image healthImg;
     [SerializeField] private TextMeshProUGUI maskStateTxt;
     [SerializeField] private TextMeshProUGUI medkitCountTxt;
 
     private UIManager _uiManager => GameManager.Instance.UIManager;
+    private AudioManager _audioManager => GameManager.Instance.AudioManager;
 
     public void OnPauseBtn()
     {
+        _audioManager.PlaySound(AudioType.s_click);
         _uiManager.SetSettingPanel(true);
     }
 

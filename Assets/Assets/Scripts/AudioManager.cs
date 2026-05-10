@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
+    [SerializeField] private AudioSource loopSource;
 
     [Header("Volume")]
     [Range(0f, 1f)] public float musicVolume = 1f;
@@ -58,10 +59,16 @@ public class AudioManager : MonoBehaviour
 
     private Dictionary<string, AudioClip> _clipCache = new();
 
+    private void Awake()
+    {
+        Init();
+    }
+
     public void Init()
     {
         musicSource.loop = true;
         soundSource.loop = false;
+        loopSource.loop = true;
 
         LoadSetting();
         ApplySetting();
@@ -79,6 +86,7 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.mute = !_musicEnabled;
         soundSource.mute = !_soundEnabled;
+        loopSource.mute = !_soundEnabled;
     }
 
     /* ================= SOUND ================= */
@@ -101,6 +109,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopLoopSound(AudioType type)
+    {
+        AudioClip clip = GetAudioClip(type);
+        if (clip != null)
+        {
+            StopLoopSound(clip);
+        }
+    }
+
     public void StopSound(AudioType type)
     {
         AudioClip clip = GetAudioClip(type);
@@ -110,19 +127,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public bool IsPlaying(AudioType type)
+    public bool IsLoopPlaying(AudioType type)
     {
         AudioClip clip = GetAudioClip(type);
         if (clip != null)
         {
-            return IsPlaying(clip);
+            return IsLoopPlaying(clip);
         }
         return false;
+    }
+
+    public void PlayWalkingSound()
+    {
+
     }
 
     public void PlayMusic(AudioType type)
     {
         AudioClip clip = GetAudioClip(type);
+        if (IsMusicPlaying(clip)) return;
         if (clip != null)
         {
             PlayMusic(clip);
@@ -195,9 +218,9 @@ public class AudioManager : MonoBehaviour
     public void PlayLoopSound(AudioClip clip)
     {
         if (clip == null || !_soundEnabled) return;
-        soundSource.clip = clip;
-        soundSource.loop = true;
-        soundSource.Play();
+        loopSource.clip = clip;
+        loopSource.loop = true;
+        loopSource.Play();
     }
 
     public void StopSound(AudioClip clip)
@@ -211,9 +234,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public bool IsPlaying(AudioClip clip)
+    public void StopLoopSound(AudioClip clip)
     {
-        return clip != null && soundSource.clip == clip && soundSource.isPlaying;
+        if (clip == null) return;
+        if (loopSource.clip == clip && loopSource.isPlaying)
+        {
+            loopSource.Stop();
+            loopSource.clip = null;
+            loopSource.loop = false;
+        }
+    }
+
+    public bool IsMusicPlaying(AudioClip clip)
+    {
+        return clip != null && musicSource.clip == clip;
+    }
+
+    public bool IsLoopPlaying(AudioClip clip)
+    {
+        return clip != null && loopSource.clip == clip && loopSource.isPlaying;
     }
 
     public void PlayMusic(AudioClip clip)
@@ -245,6 +284,7 @@ public class AudioManager : MonoBehaviour
     {
         _soundEnabled = enable;
         soundSource.mute = !enable;
+        loopSource.mute = !enable;
         PlayerPrefs.SetInt(SOUND_KEY, enable ? 1 : 0);
     }
 
@@ -260,5 +300,6 @@ public class AudioManager : MonoBehaviour
     {
         soundVolume = Mathf.Clamp01(value);
         soundSource.volume = soundVolume;
+        loopSource.volume = soundVolume;
     }
 }

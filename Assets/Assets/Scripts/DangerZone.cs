@@ -7,20 +7,23 @@ public class DangerZone : MonoBehaviour
     [SerializeField] private Transform itemMap;
     [SerializeField] private LevelDataConfig levelDataConfig;
     
-    private const int ITEM_GAP = 3;
-    
     private MapObject[,] _map;
     private List<(int x, int y)> _objectCoordinates = new();
     private LevelData _currentLevelData;
 
-    private LevelManager _levelManager => GameManager.Instance.LevelManager;
+    private UIManager _uiManager => GameManager.Instance.UIManager;
+    private InputManager _inputManager => GameManager.Instance.InputManager;
+    private MapManager _mapManager => GameManager.Instance.MapManager;
+    private ItemManager _itemManager => GameManager.Instance.ItemManager;
+    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
+    private AudioManager _audioManager => GameManager.Instance.AudioManager;
+    private InventoryManager _inventoryManager => GameManager.Instance.InventoryManager;
 
     public void InitMap()
     {
-        _currentLevelData = levelDataConfig.GetLevelData(_levelManager.CurrentLevel);
+        _currentLevelData = levelDataConfig.GetLevelData(_mapManager.CurrentLevel);
         ClearMap();
         GenerateGrid();
-        _levelManager.StartLevel();
     }
 
     private void ClearMap()
@@ -38,8 +41,8 @@ public class DangerZone : MonoBehaviour
         int rows = _currentLevelData.rows;
 
         _map = new MapObject[columns, rows];
-        float totalWidth = (columns - 1) * ITEM_GAP;
-        float totalHeight = (rows - 1) * ITEM_GAP;
+        float totalWidth = (columns - 1) * GameConstant.ITEM_GAP;
+        float totalHeight = (rows - 1) * GameConstant.ITEM_GAP;
         float xOffset = totalWidth / 2f;
         float yOffset = totalHeight / 2f;
         int id = 1;
@@ -49,8 +52,8 @@ public class DangerZone : MonoBehaviour
             for (int i = 0; i < columns; i++)
             {
                 var item = Instantiate(itemPrefab, itemMap);
-                float xPos = i * ITEM_GAP - xOffset;
-                float yPos = j * ITEM_GAP - yOffset;
+                float xPos = i * GameConstant.ITEM_GAP - xOffset;
+                float yPos = j * GameConstant.ITEM_GAP - yOffset;
                 item.transform.localPosition = new Vector2(xPos, yPos);
                 
                 MapObject mapItem = item.GetComponent<MapObject>();
@@ -76,29 +79,29 @@ public class DangerZone : MonoBehaviour
             }
         }
 
+        Debug.Log($"DevHoang CurrentLevel {_mapManager.CurrentLevel}");
         InitExit();
+        if (_mapManager.CurrentLevel == 4)
+        {
+            InitNPCA();
+        }
         InitMedKit();
         InitObstacles();
     }
 
-    private void InitExit()
+    private void InitObjectAtTargetDistance(ObjectType objectType, Color color, float distanceFraction = 0.8f)
     {
         int columns = _currentLevelData.columns;
         int rows = _currentLevelData.rows;
-
         float centerX = columns / 2f;
         float centerY = rows / 2f;
 
-        // Max distance from center to corner (excluding edge border)
         float maxDist = Vector2.Distance(
             new Vector2(centerX, centerY),
-            new Vector2(1, 1) // closest inner corner to (0,0)
+            new Vector2(1, 1)
         );
+        float targetDist = maxDist * distanceFraction;
 
-        // Target distance for exit is 80% of maxDist
-        float targetDist = maxDist * 0.8f;
-
-        // Find the coordinate in _objectCoordinates closest to targetDist from center
         int bestIndex = -1;
         float bestDelta = float.MaxValue;
 
@@ -107,7 +110,6 @@ public class DangerZone : MonoBehaviour
             var (x, y) = _objectCoordinates[i];
             float dist = Vector2.Distance(new Vector2(x, y), new Vector2(centerX, centerY));
             float delta = Mathf.Abs(dist - targetDist);
-
             if (delta < bestDelta)
             {
                 bestDelta = delta;
@@ -115,13 +117,23 @@ public class DangerZone : MonoBehaviour
             }
         }
 
-        if (bestIndex >= 0)
-        {
-            var (ex, ey) = _objectCoordinates[bestIndex];
-            _map[ex, ey].SetColor(Color.blue);
-            _map[ex, ey].InitItem(ObjectType.Exit);
-            _objectCoordinates.RemoveAt(bestIndex);
-        }
+        Debug.Log($"!@#DevHoang bestIndex {bestIndex}");
+        if (bestIndex < 0) return;
+
+        var (ex, ey) = _objectCoordinates[bestIndex];
+        _map[ex, ey].SetColor(color);
+        _map[ex, ey].InitItem(objectType);
+        _objectCoordinates.RemoveAt(bestIndex);
+    }
+
+    private void InitExit()
+    {
+        InitObjectAtTargetDistance(ObjectType.Exit, Color.blue, 0.8f);
+    }
+
+    private void InitNPCA()
+    {
+        InitObjectAtTargetDistance(ObjectType.NPCA, Color.blue, 0.8f);
     }
 
     private void InitMedKit()

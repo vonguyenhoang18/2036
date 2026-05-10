@@ -4,14 +4,21 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private MenuPanel menuPanel;
     [SerializeField] private TutorialPanel tutorialPanel;
-    [SerializeField] private GamePanel gamePanel;
+    [SerializeField] private DangerZonePanel dangerZonePanel;
+    [SerializeField] private SafeZonePanel safeZonePanel;
     [SerializeField] private SettingPanel settingPanel;
     [SerializeField] private ResultPanel resultPanel;
     [SerializeField] private LoadingPanel loadingPanel;
-    
-    private MapManager mapManager => GameManager.Instance.MapManager;
 
-    private void Awake()
+    public MenuPanel MenuPanel => menuPanel;
+    public TutorialPanel TutorialPanel => tutorialPanel;
+    public DangerZonePanel DangerZonePanel => dangerZonePanel;
+    public SafeZonePanel SafeZonePanel => safeZonePanel;
+    public SettingPanel SettingPanel => settingPanel;
+    public ResultPanel ResultPanel => resultPanel;
+    public LoadingPanel LoadingPanel => loadingPanel;
+
+    private void Start()
     {
         SetMenuPanel();
     }
@@ -26,9 +33,13 @@ public class UIManager : MonoBehaviour
         {
             tutorialPanel.gameObject.SetActive(false);
         }
-        if (gamePanel.gameObject.activeInHierarchy)
+        if (dangerZonePanel.gameObject.activeInHierarchy)
         {
-            gamePanel.gameObject.SetActive(false);
+            dangerZonePanel.gameObject.SetActive(false);
+        }
+        if (safeZonePanel.gameObject.activeInHierarchy)
+        {
+            safeZonePanel.gameObject.SetActive(false);
         }
         if (settingPanel.gameObject.activeInHierarchy)
         {
@@ -56,15 +67,21 @@ public class UIManager : MonoBehaviour
         tutorialPanel.gameObject.SetActive(true);
     }
 
-    public void SetGamePanel()
+    public void SetDangerZonePanel()
     {
         DisableAllUI();
-        gamePanel.gameObject.SetActive(true);
-        mapManager.InitDangerZoneMap();
+        dangerZonePanel.gameObject.SetActive(true);
+    }
+
+    public void SetSafeZonePanel()
+    {
+        DisableAllUI();
+        safeZonePanel.gameObject.SetActive(true);
     }
 
     public void SetSettingPanel(bool isActive)
     {
+        // Popup
         settingPanel.gameObject.SetActive(isActive);
     }
 
@@ -72,26 +89,11 @@ public class UIManager : MonoBehaviour
     {
         DisableAllUI();
         resultPanel.gameObject.SetActive(true);
-        //resultPanel.SetResult(isWin);
     }
 
     public void SetLoadingPanel(bool isActive)
     {
+        // Popup
         loadingPanel.gameObject.SetActive(isActive);
-    }
-
-    public void StartGame()
-    {
-        SetGamePanel();
-    }
-
-    public void RetryLevel()
-    {
-        SetGamePanel();
-    }
-
-    public void NextLevel()
-    {
-        SetGamePanel();
     }
 }

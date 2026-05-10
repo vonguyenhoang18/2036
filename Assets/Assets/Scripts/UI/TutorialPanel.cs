@@ -7,9 +7,17 @@ public class TutorialPanel : MonoBehaviour
     private int _currentTabId = 0;
 
     private UIManager _uiManager => GameManager.Instance.UIManager;
+    private AudioManager _audioManager => GameManager.Instance.AudioManager;
+
+    private void OnEnable()
+    {
+        _currentTabId = 0;
+        ShowTab(_currentTabId);
+    }
 
     public void OnSkipBtn()
     {
+        _audioManager.PlaySound(AudioType.s_click);
         _uiManager.SetMenuPanel();
     }
 
@@ -20,6 +28,7 @@ public class TutorialPanel : MonoBehaviour
             return;
         }
 
+        _audioManager.PlaySound(AudioType.s_click);
         _currentTabId++;
         ShowTab(_currentTabId);
     }
@@ -31,6 +40,7 @@ public class TutorialPanel : MonoBehaviour
             return;
         }
 
+        _audioManager.PlaySound(AudioType.s_click);
         _currentTabId--;
         ShowTab(_currentTabId);
     }
