@@ -3,7 +3,26 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
+    public static InputManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static InputManager instance = null;
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private CharacterManager _characterManager => CharacterManager.Instance;
 
     // Update is called once per frame
     void Update()

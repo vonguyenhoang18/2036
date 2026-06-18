@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    public static CharacterManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static CharacterManager instance = null;
+
     [SerializeField] private GameObject mask;
     [SerializeField] private Transform character;
     [SerializeField] private SpriteRenderer characterRenderer;
@@ -12,13 +19,22 @@ public class CharacterManager : MonoBehaviour
     private float _drainTimer = 0f;
     private float _damagedTimer = 0f;
 
-    private UIManager _uiManager => GameManager.Instance.UIManager;
-    private InputManager _inputManager => GameManager.Instance.InputManager;
-    private MapManager _mapManager => GameManager.Instance.MapManager;
-    private ItemManager _itemManager => GameManager.Instance.ItemManager;
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
-    private AudioManager _audioManager => GameManager.Instance.AudioManager;
-    private InventoryManager _inventoryManager => GameManager.Instance.InventoryManager;
+    private UIManager _uiManager => UIManager.Instance;
+    private MapManager _mapManager => MapManager.Instance;
+    private AudioManager _audioManager => AudioManager.Instance;
+    private InventoryManager _inventoryManager => InventoryManager.Instance;
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public float CurrentHp { get; private set; }
     public bool IsMaskOn { get; private set; }
@@ -38,6 +54,7 @@ public class CharacterManager : MonoBehaviour
         
 
         SetMaskState();
+        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn);
         SetHp(GameConstant.MAX_HP);
         ChangeDirection(Direction.Right);
     }
@@ -52,6 +69,7 @@ public class CharacterManager : MonoBehaviour
         _audioManager.PlaySound(AudioType.s_maskChange);
         IsMaskOn = !IsMaskOn;
         SetMaskState();
+        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn);
     }
 
     private void SetHp(float hp)

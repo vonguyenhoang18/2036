@@ -16,6 +16,23 @@ public enum Direction
     Right,
 }
 
+public enum Panel
+{
+    Menu,
+    DangerZone,
+    SafeZone,
+    Ending,
+    Loading,
+}
+
+public enum Popup
+{
+    Tutorial,
+    SettingMain,
+    SettingSub,
+    Loading
+}
+
 public static class GameConstant
 {
     public const float MAX_HP = 100f;
@@ -38,6 +55,9 @@ public static class GameConstant
     public const int SAFE_ZONE_ROWS = 11;
 
     public const int ITEM_GAP = 3;
+
+    public const float MASK_RADIUS_ON = 0.142f;
+    public const float MASK_RADIUS_OFF = 0.5f;
 
     public static int AdjustHP(ObjectType itemType)
     {

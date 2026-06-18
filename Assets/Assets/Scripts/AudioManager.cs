@@ -22,6 +22,13 @@ public enum AudioType
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static AudioManager instance = null;
+
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
@@ -53,7 +60,6 @@ public class AudioManager : MonoBehaviour
 
     public bool SoundEnabled => _soundEnabled;
 
-
     private const string MUSIC_KEY = "MUSIC_ENABLED";
     private const string SOUND_KEY = "SOUND_ENABLED";
 
@@ -61,6 +67,15 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         Init();
     }
 

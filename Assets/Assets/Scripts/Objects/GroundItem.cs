@@ -4,8 +4,6 @@ public class GroundItem : MonoBehaviour
 {
     [SerializeField] private ObjectType itemType = ObjectType.Unknown;
 
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         string objectName = other.gameObject.name;
@@ -14,10 +12,10 @@ public class GroundItem : MonoBehaviour
         switch (itemType)
         {
             case ObjectType.Exit:
-                _characterManager.TriggerWinLevel();
+                CharacterManager.Instance.TriggerWinLevel();
                 break;
             case ObjectType.Medkit:
-                _characterManager.AddItemCount();
+                CharacterManager.Instance.AddItemCount();
                 Destroy(this.gameObject);
                 break;
             case ObjectType.Obstacle:

@@ -11,17 +11,9 @@ public class DangerZone : MonoBehaviour
     private List<(int x, int y)> _objectCoordinates = new();
     private LevelData _currentLevelData;
 
-    private UIManager _uiManager => GameManager.Instance.UIManager;
-    private InputManager _inputManager => GameManager.Instance.InputManager;
-    private MapManager _mapManager => GameManager.Instance.MapManager;
-    private ItemManager _itemManager => GameManager.Instance.ItemManager;
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
-    private AudioManager _audioManager => GameManager.Instance.AudioManager;
-    private InventoryManager _inventoryManager => GameManager.Instance.InventoryManager;
-
     public void InitMap()
     {
-        _currentLevelData = levelDataConfig.GetLevelData(_mapManager.CurrentLevel);
+        _currentLevelData = levelDataConfig.GetLevelData(MapManager.Instance.CurrentLevel);
         ClearMap();
         GenerateGrid();
     }
@@ -79,9 +71,9 @@ public class DangerZone : MonoBehaviour
             }
         }
 
-        Debug.Log($"DevHoang CurrentLevel {_mapManager.CurrentLevel}");
+        Debug.Log($"DevHoang CurrentLevel {MapManager.Instance.CurrentLevel}");
         InitExit();
-        if (_mapManager.CurrentLevel == 4)
+        if (MapManager.Instance.CurrentLevel == 4)
         {
             InitNPCA();
         }

@@ -2,21 +2,37 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static UIManager instance = null;
+
     [SerializeField] private MenuPanel menuPanel;
-    [SerializeField] private TutorialPanel tutorialPanel;
     [SerializeField] private DangerZonePanel dangerZonePanel;
     [SerializeField] private SafeZonePanel safeZonePanel;
-    [SerializeField] private SettingPanel settingPanel;
-    [SerializeField] private ResultPanel resultPanel;
-    [SerializeField] private LoadingPanel loadingPanel;
+    [SerializeField] private EndingPanel endingPanel;
+
+    [SerializeField] private Transform popupContent;
+    [SerializeField] private GameObject[] popups;
 
     public MenuPanel MenuPanel => menuPanel;
-    public TutorialPanel TutorialPanel => tutorialPanel;
     public DangerZonePanel DangerZonePanel => dangerZonePanel;
     public SafeZonePanel SafeZonePanel => safeZonePanel;
-    public SettingPanel SettingPanel => settingPanel;
-    public ResultPanel ResultPanel => resultPanel;
-    public LoadingPanel LoadingPanel => loadingPanel;
+    public EndingPanel EndingPanel => endingPanel;
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
@@ -29,10 +45,6 @@ public class UIManager : MonoBehaviour
         {
             menuPanel.gameObject.SetActive(false);
         }
-        if (tutorialPanel.gameObject.activeInHierarchy)
-        {
-            tutorialPanel.gameObject.SetActive(false);
-        }
         if (dangerZonePanel.gameObject.activeInHierarchy)
         {
             dangerZonePanel.gameObject.SetActive(false);
@@ -41,17 +53,9 @@ public class UIManager : MonoBehaviour
         {
             safeZonePanel.gameObject.SetActive(false);
         }
-        if (settingPanel.gameObject.activeInHierarchy)
+        if (endingPanel.gameObject.activeInHierarchy)
         {
-            settingPanel.gameObject.SetActive(false);
-        }
-        if (resultPanel.gameObject.activeInHierarchy)
-        {
-            resultPanel.gameObject.SetActive(false);
-        }
-        if (loadingPanel.gameObject.activeInHierarchy)
-        {
-            loadingPanel.gameObject.SetActive(false);
+            endingPanel.gameObject.SetActive(false);
         }
     }
 
@@ -59,18 +63,16 @@ public class UIManager : MonoBehaviour
     {
         DisableAllUI();
         menuPanel.gameObject.SetActive(true);
-    }
 
-    public void SetTutorialPanel()
-    {
-        DisableAllUI();
-        tutorialPanel.gameObject.SetActive(true);
+        AudioManager.Instance.PlayMusic(AudioType.m_mainMenu);
     }
 
     public void SetDangerZonePanel()
     {
         DisableAllUI();
         dangerZonePanel.gameObject.SetActive(true);
+
+        AudioManager.Instance.PlayMusic(AudioType.m_gameplay);
     }
 
     public void SetSafeZonePanel()
@@ -79,21 +81,31 @@ public class UIManager : MonoBehaviour
         safeZonePanel.gameObject.SetActive(true);
     }
 
-    public void SetSettingPanel(bool isActive)
-    {
-        // Popup
-        settingPanel.gameObject.SetActive(isActive);
-    }
-
-    public void SetResultPanel(bool isWin)
+    public void SetEndingPanel()
     {
         DisableAllUI();
-        resultPanel.gameObject.SetActive(true);
+        endingPanel.gameObject.SetActive(true);
+
+        AudioManager.Instance.PlayMusic(AudioType.m_ending);
     }
 
-    public void SetLoadingPanel(bool isActive)
+    public GameObject ShowPopup(Popup popup)
     {
-        // Popup
-        loadingPanel.gameObject.SetActive(isActive);
+        ClearPopup();
+        GameObject go = Instantiate(popups[(int)popup], popupContent);
+        return go;
+    }
+
+    public void HidePopup()
+    {
+        ClearPopup();
+    }
+
+    private void ClearPopup()
+    {
+        foreach (Transform child in popupContent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

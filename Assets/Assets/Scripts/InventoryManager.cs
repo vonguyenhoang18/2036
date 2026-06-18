@@ -2,9 +2,28 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static InventoryManager instance = null;
+
     private int _medkitCount = 0;
 
-    private UIManager _uiManager => GameManager.Instance.UIManager;
+    private UIManager _uiManager => UIManager.Instance;
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void AddMedkit()
     {

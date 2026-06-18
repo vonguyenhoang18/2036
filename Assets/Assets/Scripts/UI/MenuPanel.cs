@@ -1,36 +1,94 @@
 using UnityEngine;
+using TMPro;
+using DG.Tweening;
 
 public class MenuPanel : MonoBehaviour
 {
-    private UIManager _uiManager => GameManager.Instance.UIManager;
-    private InputManager _inputManager => GameManager.Instance.InputManager;
-    private MapManager _mapManager => GameManager.Instance.MapManager;
-    private ItemManager _itemManager => GameManager.Instance.ItemManager;
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
-    private AudioManager _audioManager => GameManager.Instance.AudioManager;
-    private InventoryManager _inventoryManager => GameManager.Instance.InventoryManager;
+    [SerializeField] private CanvasGroup survivalBtn;
+
+    [SerializeField] private CanvasGroup notiPopup;
+    [SerializeField] private RectTransform notiBG;
+    [SerializeField] private TextMeshProUGUI notiText;
+
+    private bool _survivalEnabled = false;
+
+    private const string SURVIVAL_KEY = "SURVIVAL_ENABLED";
+
+    private void OnEnable()
+    {
+        Init();
+    }
+    
+    private void Init()
+    {
+        HideNotiPopup(true);
+
+        _survivalEnabled = PlayerPrefs.GetInt(SURVIVAL_KEY, 0) == 1;
+        survivalBtn.alpha = _survivalEnabled ? 1f : 0.5f;
+    }
 
     public void OnStartBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
-        _mapManager.InitDangerZoneMap();
+        AudioManager.Instance.PlaySound(AudioType.s_click);
+        GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+        loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
+        {
+            UIManager.Instance.ShowPopup(Popup.Tutorial);
+        });
     }
 
-    public void OnTutorialBtn()
+    public void OnSurvivalBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
-        _uiManager.SetTutorialPanel();
-    }
-
-    public void OnQuitBtn()
-    {
-        _audioManager.PlaySound(AudioType.s_click);
-        Application.Quit();
+        AudioManager.Instance.PlaySound(AudioType.s_click);
+        if (_survivalEnabled)
+        {
+            GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+            loading.GetComponent<LoadingPanel>().EndLoading(2f, () =>
+            {
+                MapManager.Instance.InitDangerZoneMap();
+            });
+        }
+        else
+        {
+            ShowNotiPopup();
+        }
     }
 
     public void OnSettingBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
-        _uiManager.SetSettingPanel(true);
+        AudioManager.Instance.PlaySound(AudioType.s_click);
+        UIManager.Instance.ShowPopup(Popup.SettingMain);
+    }
+
+    private void ShowNotiPopup()
+    {
+        notiPopup.DOKill();
+        notiBG.DOKill();
+        notiPopup.alpha = 0f;
+        notiBG.anchoredPosition = new Vector2(notiBG.anchoredPosition.x, -100f);
+        notiPopup.gameObject.SetActive(true);
+        notiText.SetText("You need to finish story first to unlock this mode!");
+        DOTween.Sequence()
+            .Append(notiPopup.DOFade(1f, 1f))
+            .Join(notiBG.DOAnchorPosY(0f, 1f))
+            .AppendInterval(1f)
+            .OnComplete(() => HideNotiPopup(false));
+    }
+
+    private void HideNotiPopup(bool immediately)
+    {
+        if (immediately)
+        {
+            notiPopup.alpha = 0f;
+            notiPopup.gameObject.SetActive(false);
+        }
+        else
+        {
+            notiPopup.DOFade(0f, 1f).OnComplete(() =>
+            {
+                notiPopup.alpha = 0f;
+                notiPopup.gameObject.SetActive(false);
+            });
+        }
     }
 }

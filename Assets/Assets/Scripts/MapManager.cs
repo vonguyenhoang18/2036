@@ -2,27 +2,43 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
+    public static MapManager Instance
+    {
+        get { return instance; }
+    }
+
+    private static MapManager instance = null;
+
     [SerializeField] private DangerZone dangerZone;
     [SerializeField] private SafeZone safeZone;
 
     private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
 
-    private UIManager _uiManager => GameManager.Instance.UIManager;
-    private CharacterManager _characterManager => GameManager.Instance.CharacterManager;
+    private void Awake()
+    {
+        if (instance)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void InitDangerZoneMap()
     {
         dangerZone.gameObject.SetActive(true);
         safeZone.gameObject.SetActive(false);
 
-        _uiManager.SetLoadingPanel(true);
-        _uiManager.LoadingPanel.EndLoading(2f, () =>
-        {
-            dangerZone.InitMap();
-            _characterManager.Init();
-            _uiManager.SetDangerZonePanel();
-        });
+        UIManager.Instance.ShowPopup(Popup.Loading);
+        //_uiManager.LoadingPanel.EndLoading(2f, () =>
+        //{
+        //    dangerZone.InitMap();
+        //    _characterManager.Init();
+        //    _uiManager.SetDangerZonePanel();
+        //});
     }
 
     public void InitSafeZoneMap()
@@ -30,13 +46,13 @@ public class MapManager : MonoBehaviour
         dangerZone.gameObject.SetActive(false);
         safeZone.gameObject.SetActive(true);
 
-        _uiManager.SetLoadingPanel(true);
-        _uiManager.LoadingPanel.EndLoading(2f, () =>
-        {
-            safeZone.InitMap();
-            _characterManager.Init();
-            _uiManager.SetSafeZonePanel();
-        });
+        UIManager.Instance.ShowPopup(Popup.Loading);
+        //_uiManager.LoadingPanel.EndLoading(2f, () =>
+        //{
+        //    safeZone.InitMap();
+        //    _characterManager.Init();
+        //    _uiManager.SetSafeZonePanel();
+        //});
     }
 
     public void WinLevel()

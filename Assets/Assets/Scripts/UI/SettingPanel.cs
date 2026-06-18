@@ -14,8 +14,6 @@ public class SettingPanel : MonoBehaviour
     private bool _musicEnable = true;
     private bool _soundEnable = true;
 
-    private AudioManager _audioManager => GameManager.Instance.AudioManager;
-
     private void OnEnable()
     {
         UpdateMusicIcon();
@@ -24,34 +22,41 @@ public class SettingPanel : MonoBehaviour
 
     public void OnMusicBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
+        AudioManager.Instance.PlaySound(AudioType.s_click);
         _musicEnable = !_musicEnable;
-        _audioManager.ToggleMusic(_musicEnable);
+        AudioManager.Instance.ToggleMusic(_musicEnable);
         UpdateMusicIcon();
     }
 
     public void OnSoundBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
+        AudioManager.Instance.PlaySound(AudioType.s_click);
         _soundEnable = !_soundEnable;
-        _audioManager.ToggleSound(_soundEnable);
+        AudioManager.Instance.ToggleSound(_soundEnable);
         UpdateSoundIcon();
     }
 
     public void OnCloseBtn()
     {
-        _audioManager.PlaySound(AudioType.s_click);
-        GameManager.Instance.UIManager.SetSettingPanel(false);
+        AudioManager.Instance.PlaySound(AudioType.s_click);
+        UIManager.Instance.HidePopup();
     }
 
     private void UpdateMusicIcon()
     {
-        _musicEnable = _audioManager.MusicEnabled;
+        _musicEnable = AudioManager.Instance.MusicEnabled;
         _musicImg.sprite = _musicEnable ? _musicOn : _musicOff;
     }
 
     private void UpdateSoundIcon() {
-        _soundEnable = _audioManager.SoundEnabled;
+        _soundEnable = AudioManager.Instance.SoundEnabled;
         _soundImg.sprite = _soundEnable ? _soundOn : _soundOff;
+    }
+
+    public void OnBackBtn()
+    {
+        AudioManager.Instance.PlaySound(AudioType.s_click);
+        //DevHoang: Call MapManager to destroy map
+        UIManager.Instance.HidePopup();
     }
 }
