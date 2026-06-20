@@ -41,6 +41,7 @@ public enum Dialogue
     Level4Start,
     Level4NPCA,
     Level5Start,
+    Level5End,
 }
 
 public static class GameConstant

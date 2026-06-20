@@ -78,6 +78,7 @@ public class MapManager : MonoBehaviour
             if (_currentLevel > GameConstant.LEVEL_PROLOUGE_COUNT)
             {
                 _currentLevel = 1;
+                PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
                 InventoryManager.Instance.SetMedKit(0);
                 UIManager.Instance.SetEndingPanel();
             }

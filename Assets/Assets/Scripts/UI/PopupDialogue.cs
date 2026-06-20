@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class PopupDialogue : MonoBehaviour
     private int _curConversationCount = 0;
     private int _curMessageIndex = 0;
     private int _curMessageCount = 0;
+    private Action _onEndDialogue;
 
     private void OnEnable()
     {
@@ -39,8 +41,14 @@ public class PopupDialogue : MonoBehaviour
         }
     }
 
-    public void SetDialogue(Dialogue dialogue)
+    public void SetDialogue(Dialogue dialogue, Action onEndDialogue = null)
     {
+        _onEndDialogue = null;
+        if (onEndDialogue != null)
+        {
+            _onEndDialogue = onEndDialogue;
+        }
+
         _curDialogue = dialogueConfig.GetDialogue(dialogue);
         if (_curDialogue == null)
         {
@@ -99,6 +107,7 @@ public class PopupDialogue : MonoBehaviour
                 if (_curDialogueIndex == _curDialogueCount)
                 {
                     UIManager.Instance.HidePopup();
+                    _onEndDialogue?.Invoke();
                     return;
                 }
                 ShowDialogue();

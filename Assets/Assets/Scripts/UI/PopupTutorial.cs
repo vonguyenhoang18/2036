@@ -16,7 +16,7 @@ public class PopupTutorial : MonoBehaviour
         _currentTabId = 0;
         skipBtn.SetActive(tabs.Length > 1);
         ShowTab();
-        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlayMusic(AudioType.m_mainMenu);
     }
 
     public void OnSkipBtn()
