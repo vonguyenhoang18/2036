@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f594cbd84ec1cf428b3ec106fd3532b, type: 3}
+  m_Name: DialogueConfig
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueConfig
+  allDialogues:
+  - key: 0
+    entries:
+    - charLeft: {fileID: 0}
+      charRight: {fileID: 0}
+      messages:
+      - isLeft: 0
+        title: ???
+        messages:
+        - Help me...!
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+      charRight: {fileID: 0}
+      messages:
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - I hear a voice somewhere.
+        - Maybe someone needs help. Let's seek them out.
+  - key: 1
+    entries:
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+      charRight: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
+      messages:
+      - isLeft: 0
+        title: Profs
+        messages:
+        - Hey, thank you! This area is so dangerous.
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - What are you doing here? I thought everyone evacuated.
+      - isLeft: 0
+        title: Profs
+        messages:
+        - My base is near here. But let's get out of here first.
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - We should find the exit.
+  - key: 2
+    entries:
+    - charLeft: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
+      charRight: {fileID: 0}
+      messages:
+      - isLeft: 1
+        title: Profs
+        messages:
+        - We're getting close to my shelter.

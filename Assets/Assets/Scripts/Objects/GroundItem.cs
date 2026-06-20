@@ -30,6 +30,10 @@ public class GroundItem : MonoBehaviour
                 Vector2 knockbackDir = ((Vector2)other.transform.position - (Vector2)transform.position).normalized;
                 CharacterManager.Instance.Knockback(knockbackDir);
                 break;
+            case ObjectType.NPCA:
+                GameObject dialogue = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                dialogue.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level4NPCA);
+                break;
             default:
                 Debug.LogWarning("Unknown item type encountered.");
                 break;

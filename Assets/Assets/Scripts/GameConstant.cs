@@ -33,6 +33,14 @@ public enum Popup
     Loading,
     Result,
     Tutorial2,
+    Dialogue,
+}
+
+public enum Dialogue
+{
+    Level4Start,
+    Level4NPCA,
+    Level5Start,
 }
 
 public static class GameConstant

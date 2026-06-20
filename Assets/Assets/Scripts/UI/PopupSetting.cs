@@ -25,7 +25,7 @@ public class PopupSetting : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.escapeKey.isPressed)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             OnCloseBtn();
         }

@@ -43,6 +43,19 @@ public class MapManager : MonoBehaviour
         dangerZone.InitMap();
         CharacterManager.Instance.Init();
         UIManager.Instance.SetDangerZonePanel();
+
+        if (_currentLevel == 4)
+        {
+            // Level 4 show dialogue
+            GameObject go = UIManager.Instance.ShowPopup(Popup.Dialogue);
+            go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level4Start);
+        }
+        if (_currentLevel == 5)
+        {
+            // Level 5 show dialogue
+            GameObject go = UIManager.Instance.ShowPopup(Popup.Dialogue);
+            go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level5Start);
+        }
     }
 
     public void InitSafeZoneMap()
