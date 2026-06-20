@@ -1,10 +1,11 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class TutorialPopup : MonoBehaviour
+public class PopupTutorial : MonoBehaviour
 {
     [SerializeField] private GameObject previousBtn;
     [SerializeField] private GameObject nextBtn;
+    [SerializeField] private GameObject skipBtn;
     [SerializeField] private GameObject[] tabs;
 
     private int _currentTabId = 0;
@@ -13,7 +14,9 @@ public class TutorialPopup : MonoBehaviour
     private void OnEnable()
     {
         _currentTabId = 0;
+        skipBtn.SetActive(tabs.Length > 1);
         ShowTab();
+        AudioManager.Instance.StopMusic();
     }
 
     public void OnSkipBtn()
@@ -58,7 +61,8 @@ public class TutorialPopup : MonoBehaviour
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
         {
-            //DevHoang: start game
+            UIManager.Instance.HidePopup();
+            MapManager.Instance.InitDangerZoneMap();
         });
     }
 }

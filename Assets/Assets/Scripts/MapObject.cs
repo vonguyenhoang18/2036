@@ -11,6 +11,8 @@ public class MapObject : MonoBehaviour
     [SerializeField] private GameObject medkitPrefab;
     [SerializeField] private GameObject[] objectsPrefab;
     [SerializeField] private GameObject edgePrefab;
+    [SerializeField] private GameObject swampPrefab;
+    [SerializeField] private GameObject smokePrefab;
     [SerializeField] private GameObject npcAPrefab;
 
     private bool _isDebug = false;
@@ -46,6 +48,12 @@ public class MapObject : MonoBehaviour
                 break;
             case ObjectType.Edge:
                 Instantiate(edgePrefab, content);
+                break;
+            case ObjectType.Swamp:
+                Instantiate(swampPrefab, content);
+                break;
+            case ObjectType.Smoke:
+                Instantiate(smokePrefab, content);
                 break;
             case ObjectType.NPCA:
                 GameObject npcA = Instantiate(npcAPrefab, content);

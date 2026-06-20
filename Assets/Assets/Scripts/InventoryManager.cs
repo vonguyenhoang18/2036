@@ -11,8 +11,6 @@ public class InventoryManager : MonoBehaviour
 
     private int _medkitCount = 0;
 
-    private UIManager _uiManager => UIManager.Instance;
-
     private void Awake()
     {
         if (instance)
@@ -28,7 +26,7 @@ public class InventoryManager : MonoBehaviour
     public void AddMedkit()
     {
         _medkitCount++;
-        _uiManager.DangerZonePanel.UpdateMedkitCount(_medkitCount);
+        UIManager.Instance.DangerZonePanel.UpdateMedkitCount(_medkitCount);
     }
 
     public void UseMedkit()
@@ -36,7 +34,7 @@ public class InventoryManager : MonoBehaviour
         if (_medkitCount > 0)
         {
             _medkitCount--;
-            _uiManager.DangerZonePanel.UpdateMedkitCount(_medkitCount);
+            UIManager.Instance.DangerZonePanel.UpdateMedkitCount(_medkitCount);
         }
         else
         {
@@ -47,5 +45,10 @@ public class InventoryManager : MonoBehaviour
     public bool CanUseMedkit()
     {
         return _medkitCount > 0;
+    }
+
+    public void SetMedKit(int value)
+    {
+        _medkitCount = value;
     }
 }

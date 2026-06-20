@@ -1,15 +1,18 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SettingPanel : MonoBehaviour
+public class PopupSetting : MonoBehaviour
 {
-    [SerializeField] private Image _musicImg;
-    [SerializeField] private Image _soundImg;
+    [SerializeField] private Image musicImg;
+    [SerializeField] private Image soundImg;
 
-    [SerializeField] private Sprite _musicOn;
-    [SerializeField] private Sprite _musicOff;
-    [SerializeField] private Sprite _soundOn;
-    [SerializeField] private Sprite _soundOff;
+    [SerializeField] private Sprite musicOn;
+    [SerializeField] private Sprite musicOff;
+    [SerializeField] private Sprite soundOn;
+    [SerializeField] private Sprite soundOff;
+
+    [SerializeField] private bool _isSettingMain;
 
     private bool _musicEnable = true;
     private bool _soundEnable = true;
@@ -18,6 +21,14 @@ public class SettingPanel : MonoBehaviour
     {
         UpdateMusicIcon();
         UpdateSoundIcon();
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.escapeKey.isPressed)
+        {
+            OnCloseBtn();
+        }
     }
 
     public void OnMusicBtn()
@@ -40,23 +51,30 @@ public class SettingPanel : MonoBehaviour
     {
         AudioManager.Instance.PlaySound(AudioType.s_click);
         UIManager.Instance.HidePopup();
+        if (!_isSettingMain)
+        {
+            CharacterManager.Instance.SetPause(false);
+        }
     }
 
     private void UpdateMusicIcon()
     {
         _musicEnable = AudioManager.Instance.MusicEnabled;
-        _musicImg.sprite = _musicEnable ? _musicOn : _musicOff;
+        musicImg.sprite = _musicEnable ? musicOn : musicOff;
     }
 
     private void UpdateSoundIcon() {
         _soundEnable = AudioManager.Instance.SoundEnabled;
-        _soundImg.sprite = _soundEnable ? _soundOn : _soundOff;
+        soundImg.sprite = _soundEnable ? soundOn : soundOff;
     }
 
     public void OnBackBtn()
     {
         AudioManager.Instance.PlaySound(AudioType.s_click);
-        //DevHoang: Call MapManager to destroy map
-        UIManager.Instance.HidePopup();
+        GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+        loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
+        {
+            UIManager.Instance.SetMenuPanel();
+        });
     }
 }

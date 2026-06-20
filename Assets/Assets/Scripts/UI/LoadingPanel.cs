@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoadingPanel : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _loadingTxt;
+    [SerializeField] private TextMeshProUGUI loadingTxt;
 
     private string[] strings = new string[] { "Loading", "Loading .", "Loading . .", "Loading . . ." };
     private int _index = 0;
@@ -32,7 +32,7 @@ public class LoadingPanel : MonoBehaviour
         {
             _timer = 0f;
             _index = (_index + 1) % strings.Length; // Loop through the strings
-            _loadingTxt.text = strings[_index]; // Update the loading text
+            loadingTxt.text = strings[_index]; // Update the loading text
         }
 
         if (_callback != null)
@@ -40,8 +40,8 @@ public class LoadingPanel : MonoBehaviour
             _duration += Time.deltaTime;
             if (_duration >= _endDuration)
             {
+                UIManager.Instance.HidePopup();
                 _callback.Invoke();
-                this.gameObject.SetActive(false); // Hide the loading panel after callback is invoked
             }
         }
     }

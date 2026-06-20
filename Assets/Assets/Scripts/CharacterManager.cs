@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
@@ -18,6 +20,9 @@ public class CharacterManager : MonoBehaviour
     private bool _isDamaged = false;
     private float _drainTimer = 0f;
     private float _damagedTimer = 0f;
+    private bool _isPaused = true;
+
+    public bool IsPaused => _isPaused;
 
     private UIManager _uiManager => UIManager.Instance;
     private MapManager _mapManager => MapManager.Instance;
@@ -41,12 +46,15 @@ public class CharacterManager : MonoBehaviour
 
     private void Update()
     {
+        if (_isPaused) return;
+
         DrainHpOverTime();
+        DamageOverTime();
     }
 
     public void Init()
     {
-        IsMaskOn = false;
+        IsMaskOn = true;
         _isDamaged = false;
         _drainTimer = 0f;
         _damagedTimer = 0f;
@@ -54,9 +62,11 @@ public class CharacterManager : MonoBehaviour
         
 
         SetMaskState();
-        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn);
+        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn, true);
         SetHp(GameConstant.MAX_HP);
         ChangeDirection(Direction.Right);
+
+        SetPause(false);
     }
 
     private void SetMaskState()
@@ -69,7 +79,7 @@ public class CharacterManager : MonoBehaviour
         _audioManager.PlaySound(AudioType.s_maskChange);
         IsMaskOn = !IsMaskOn;
         SetMaskState();
-        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn);
+        _uiManager.DangerZonePanel.UpdateMaskState(IsMaskOn, false);
     }
 
     private void SetHp(float hp)
@@ -161,7 +171,8 @@ public class CharacterManager : MonoBehaviour
         SetHp(currentHp);
         if (currentHp == 0)
         {
-            TriggerLoseLevel();
+            GameObject go = UIManager.Instance.ShowPopup(Popup.Result);
+            go.GetComponent<PopupResult>().ShowResult(false);
         }
     }
 
@@ -173,6 +184,49 @@ public class CharacterManager : MonoBehaviour
             characterRenderer.color = Color.white;
             _damagedTimer = 0;
         }
+    }
+
+    public void DamageOnce()
+    {
+        AddHp(-GameConstant.DAMAGE_AMOUNT);
+        _audioManager.PlaySound(AudioType.s_hurt);
+        StartCoroutine(DamageFlashRoutine());
+    }
+
+    private IEnumerator DamageFlashRoutine()
+    {
+        characterRenderer.color = Color.red;
+        float elapsed = 0f;
+        while (elapsed < GameConstant.DAMAGE_INTERVAL)
+        {
+            elapsed += Time.deltaTime;
+            characterRenderer.color = Color.Lerp(Color.red, Color.white, elapsed / GameConstant.DAMAGE_INTERVAL);
+            yield return null;
+        }
+        characterRenderer.color = Color.white;
+    }
+
+    public void Knockback(Vector2 direction)
+    {
+        StartCoroutine(KnockbackRoutine(direction));
+    }
+
+    private IEnumerator KnockbackRoutine(Vector2 direction)
+    {
+        SetPause(true);
+        Vector3 startPos = character.position;
+        Vector3 endPos = startPos + (Vector3)(direction * GameConstant.KNOCKBACK_DISTANCE);
+        float elapsed = 0f;
+
+        while (elapsed < GameConstant.KNOCKBACK_DURATION)
+        {
+            elapsed += Time.deltaTime;
+            character.position = Vector3.Lerp(startPos, endPos, elapsed / GameConstant.KNOCKBACK_DURATION);
+            yield return null;
+        }
+
+        character.position = endPos;
+        SetPause(false);
     }
 
     public void UseHealing()
@@ -187,19 +241,18 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void TriggerWinLevel()
-    {
-        _mapManager.WinLevel();
-    }
-
-    private void TriggerLoseLevel()
-    {
-        _mapManager.LoseLevel();
-    }
-
     public void AddItemCount()
     {
         _audioManager.PlaySound(AudioType.s_pickUp);
         _inventoryManager.AddMedkit();
+    }
+
+    public void SetPause(bool state)
+    {
+        _isPaused = state;
+        if (_isPaused)
+        {
+            ChangeSpeed(0, 0);
+        }
     }
 }

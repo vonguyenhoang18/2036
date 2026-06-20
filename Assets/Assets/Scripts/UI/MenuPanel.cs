@@ -33,7 +33,14 @@ public class MenuPanel : MonoBehaviour
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
         {
-            UIManager.Instance.ShowPopup(Popup.Tutorial);
+            if (MapManager.Instance.CurrentLevel == 1)
+            {
+                UIManager.Instance.ShowPopup(Popup.Tutorial);
+            }
+            else
+            {
+                MapManager.Instance.InitDangerZoneMap();
+            }
         });
     }
 
@@ -43,7 +50,7 @@ public class MenuPanel : MonoBehaviour
         if (_survivalEnabled)
         {
             GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
-            loading.GetComponent<LoadingPanel>().EndLoading(2f, () =>
+            loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
             {
                 MapManager.Instance.InitDangerZoneMap();
             });

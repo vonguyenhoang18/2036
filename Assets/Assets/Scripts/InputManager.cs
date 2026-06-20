@@ -27,6 +27,8 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CharacterManager.Instance.IsPaused) return;
+
         CharacterMove();
         ChangeMaskState();
         UseHealing();

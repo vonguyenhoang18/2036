@@ -338,4 +338,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4a7031ea2667849857bf9e71b0fdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadingPanel
-  _loadingTxt: {fileID: 7489848599237642684}
+  loadingTxt: {fileID: 7489848599237642684}

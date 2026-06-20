@@ -286,6 +286,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopMusic()
+    {
+        musicSource.volume = 0f;
+        musicSource.Stop();
+        musicSource.clip = null;
+    }
+
     /* ================= TOGGLE ================= */
 
     public void ToggleMusic(bool enable)

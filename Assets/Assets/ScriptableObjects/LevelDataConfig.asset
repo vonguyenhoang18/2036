@@ -16,35 +16,35 @@ MonoBehaviour:
   - levelId: 1
     columns: 7
     rows: 7
-    medkitCount: 1
-    obstacleCount: 3
+    medkitCount: 0
+    obstacleCount: 10
     swampCount: 0
-    smokeCount: 0
+    smokeCount: 3
   - levelId: 2
     columns: 9
     rows: 9
-    medkitCount: 1
-    obstacleCount: 5
+    medkitCount: 2
+    obstacleCount: 15
     swampCount: 0
-    smokeCount: 0
+    smokeCount: 6
   - levelId: 3
     columns: 11
     rows: 11
-    medkitCount: 1
-    obstacleCount: 10
-    swampCount: 0
-    smokeCount: 0
+    medkitCount: 4
+    obstacleCount: 25
+    swampCount: 4
+    smokeCount: 10
   - levelId: 4
     columns: 13
     rows: 13
-    medkitCount: 2
-    obstacleCount: 20
-    swampCount: 0
-    smokeCount: 0
+    medkitCount: 5
+    obstacleCount: 35
+    swampCount: 10
+    smokeCount: 15
   - levelId: 5
     columns: 15
     rows: 15
-    medkitCount: 3
-    obstacleCount: 30
-    swampCount: 0
-    smokeCount: 0
+    medkitCount: 4
+    obstacleCount: 45
+    swampCount: 15
+    smokeCount: 13

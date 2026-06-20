@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
@@ -25,6 +26,13 @@ public class MapManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        Init();
+    }
+
+    private void Init()
+    {
+        _currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
     }
 
     public void InitDangerZoneMap()
@@ -32,13 +40,9 @@ public class MapManager : MonoBehaviour
         dangerZone.gameObject.SetActive(true);
         safeZone.gameObject.SetActive(false);
 
-        UIManager.Instance.ShowPopup(Popup.Loading);
-        //_uiManager.LoadingPanel.EndLoading(2f, () =>
-        //{
-        //    dangerZone.InitMap();
-        //    _characterManager.Init();
-        //    _uiManager.SetDangerZonePanel();
-        //});
+        dangerZone.InitMap();
+        CharacterManager.Instance.Init();
+        UIManager.Instance.SetDangerZonePanel();
     }
 
     public void InitSafeZoneMap()
@@ -46,32 +50,39 @@ public class MapManager : MonoBehaviour
         dangerZone.gameObject.SetActive(false);
         safeZone.gameObject.SetActive(true);
 
-        UIManager.Instance.ShowPopup(Popup.Loading);
-        //_uiManager.LoadingPanel.EndLoading(2f, () =>
-        //{
-        //    safeZone.InitMap();
-        //    _characterManager.Init();
-        //    _uiManager.SetSafeZonePanel();
-        //});
+        safeZone.InitMap();
+        CharacterManager.Instance.Init();
+        UIManager.Instance.SetSafeZonePanel();
     }
 
     public void WinLevel()
     {
+        Debug.Log($"Win");
         _currentLevel++;
-        if (_currentLevel > GameConstant.LEVEL_PROLOUGE_COUNT)
-        {
-            Debug.Log("You will go to SafeZone");
-            InitSafeZoneMap();
-        }
-        else
-        {
-            Debug.Log($"Congratulations! You've completed level prolouge {_currentLevel}");
-            InitDangerZoneMap();
-        }
+        PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
+        GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+        loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
+            if (_currentLevel > GameConstant.LEVEL_PROLOUGE_COUNT)
+            {
+                _currentLevel = 1;
+                InventoryManager.Instance.SetMedKit(0);
+                UIManager.Instance.SetEndingPanel();
+            }
+            else if (_currentLevel == 2)
+            {
+                // Level 2 show tutorial medkit
+                UIManager.Instance.ShowPopup(Popup.Tutorial2);
+            }
+            else
+            {
+                InitDangerZoneMap();
+            }
+        });
     }
 
     public void LoseLevel()
     {
-
+        Debug.Log($"Lose");
+        InitDangerZoneMap();
     }
 }

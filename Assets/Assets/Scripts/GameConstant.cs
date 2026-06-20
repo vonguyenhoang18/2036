@@ -30,7 +30,9 @@ public enum Popup
     Tutorial,
     SettingMain,
     SettingSub,
-    Loading
+    Loading,
+    Result,
+    Tutorial2,
 }
 
 public static class GameConstant
@@ -58,6 +60,9 @@ public static class GameConstant
 
     public const float MASK_RADIUS_ON = 0.142f;
     public const float MASK_RADIUS_OFF = 0.5f;
+
+    public const float KNOCKBACK_DISTANCE = 2f;
+    public const float KNOCKBACK_DURATION = 0.5f;
 
     public static int AdjustHP(ObjectType itemType)
     {
