@@ -14,6 +14,7 @@ public enum AudioType
     s_walking,
     s_winGame,
     s_loseGame,
+    s_thud,
     //Music
     m_gameplay,
     m_mainMenu,
@@ -45,9 +46,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip s_pickUp;
     [SerializeField] private AudioClip s_breathing;
     [SerializeField] private AudioClip s_walking;
-    
     [SerializeField] private AudioClip s_winGame;
     [SerializeField] private AudioClip s_loseGame;
+    [SerializeField] private AudioClip s_thud;
     
     [SerializeField] private AudioClip m_gameplay;
     [SerializeField] private AudioClip m_mainMenu;
@@ -55,6 +56,7 @@ public class AudioManager : MonoBehaviour
 
     private bool _musicEnabled = true;
     private bool _soundEnabled = true;
+    private Coroutine _fadeCoroutine;
 
     public bool MusicEnabled => _musicEnabled;
 
@@ -180,6 +182,7 @@ public class AudioManager : MonoBehaviour
             case AudioType.s_walking: return s_walking;
             case AudioType.s_winGame: return s_winGame;
             case AudioType.s_loseGame: return s_loseGame;
+            case AudioType.s_thud: return s_thud;
             case AudioType.m_gameplay: return m_gameplay;
             case AudioType.m_mainMenu: return m_mainMenu;
             case AudioType.m_ending: return m_ending;
@@ -291,6 +294,12 @@ public class AudioManager : MonoBehaviour
         musicSource.volume = 0f;
         musicSource.Stop();
         musicSource.clip = null;
+    }
+
+    public void StopMusicWithFade()
+    {
+        if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
+        _fadeCoroutine = StartCoroutine(FadeOutMusic(1f));
     }
 
     /* ================= TOGGLE ================= */

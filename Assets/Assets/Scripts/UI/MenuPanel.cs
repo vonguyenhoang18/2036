@@ -8,7 +8,8 @@ public class MenuPanel : MonoBehaviour
 
     [SerializeField] private CanvasGroup notiPopup;
     [SerializeField] private RectTransform notiBG;
-    [SerializeField] private TextMeshProUGUI notiText;
+    [SerializeField] private TextMeshProUGUI notiTxt;
+    [SerializeField] private TextMeshProUGUI versionTxt;
 
     private bool _survivalEnabled = false;
 
@@ -17,6 +18,7 @@ public class MenuPanel : MonoBehaviour
     private void OnEnable()
     {
         Init();
+        versionTxt.text = $"Version {Application.version}";
     }
     
     private void Init()
@@ -74,7 +76,7 @@ public class MenuPanel : MonoBehaviour
         notiPopup.alpha = 0f;
         notiBG.anchoredPosition = new Vector2(notiBG.anchoredPosition.x, -100f);
         notiPopup.gameObject.SetActive(true);
-        notiText.SetText("You need to finish story first to unlock this mode!");
+        notiTxt.SetText("You need to finish story first to unlock this mode!");
         DOTween.Sequence()
             .Append(notiPopup.DOFade(1f, 1f))
             .Join(notiBG.DOAnchorPosY(0f, 1f))

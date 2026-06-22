@@ -19,6 +19,11 @@ public class PopupTutorial : MonoBehaviour
         AudioManager.Instance.PlayMusic(AudioType.m_mainMenu);
     }
 
+    private void OnDisable()
+    {
+        AudioManager.Instance.StopMusicWithFade();
+    }
+
     public void OnSkipBtn()
     {
         AudioManager.Instance.PlaySound(AudioType.s_click);

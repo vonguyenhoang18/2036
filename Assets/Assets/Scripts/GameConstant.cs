@@ -42,6 +42,7 @@ public enum Dialogue
     Level4NPCA,
     Level5Start,
     Level5End,
+    Level4ExitNoti,
 }
 
 public static class GameConstant
@@ -72,6 +73,8 @@ public static class GameConstant
 
     public const float KNOCKBACK_DISTANCE = 2f;
     public const float KNOCKBACK_DURATION = 0.5f;
+
+    public const float DIALOGUE_SCALE = 1.2f;
 
     public static int AdjustHP(ObjectType itemType)
     {

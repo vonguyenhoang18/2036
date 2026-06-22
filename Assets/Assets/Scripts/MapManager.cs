@@ -16,6 +16,8 @@ public class MapManager : MonoBehaviour
     private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
 
+    public bool FinishObjective = true;
+
     private void Awake()
     {
         if (instance)

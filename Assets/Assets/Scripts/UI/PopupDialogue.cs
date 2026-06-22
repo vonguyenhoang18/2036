@@ -92,6 +92,10 @@ public class PopupDialogue : MonoBehaviour
         charRightShadow.gameObject.SetActive(messageEntry.isLeft);
         titleTxt.text = messageEntry.title;
         messageTxt.text = messageEntry.messages[_curMessageIndex];
+
+        float scale = GameConstant.DIALOGUE_SCALE;
+        charLeft.transform.localScale = messageEntry.isLeft ? new Vector3(scale, scale, 1f) : new Vector3(1f, 1f, 1f);
+        charRight.transform.localScale = messageEntry.isLeft ? new Vector3(-1f, 1f, 1f) : new Vector3(-scale, scale, 1f);
     }
 
     public void OnContinueBtn()

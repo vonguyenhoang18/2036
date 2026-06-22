@@ -69,3 +69,12 @@ MonoBehaviour:
         title: Profs
         messages:
         - Finally, we reach to the Shelter.
+  - key: 4
+    entries:
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+      charRight: {fileID: 0}
+      messages:
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - I need to find where the sound comes from first.
