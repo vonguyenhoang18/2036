@@ -78,3 +78,44 @@ MonoBehaviour:
         title: Rocky
         messages:
         - I need to find where the sound comes from first.
+  - key: 5
+    entries:
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+      charRight: {fileID: 21300000, guid: 14374d220943a5a4485535584230216e, type: 3}
+      messages:
+      - isLeft: 0
+        title: Profs
+        messages:
+        - Relax! You can breath normally here.
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - Oh. The air here is so clean.
+  - key: 6
+    entries:
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+      charRight: {fileID: 21300000, guid: 14374d220943a5a4485535584230216e, type: 3}
+      messages:
+      - isLeft: 0
+        title: Profs
+        messages:
+        - Take your time. You've earned a rest.
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - What is this place?
+      - isLeft: 0
+        title: Profs
+        messages:
+        - A Safe Zone.
+        - One of the few places where people can still live without a gas mask.
+      - isLeft: 1
+        title: Rocky
+        messages:
+        - "So we\u2019re staying here? "
+      - isLeft: 0
+        title: Profs
+        messages:
+        - For now.
+        - Look around. Get familiar with the place.
+        - Come talk to me when you're ready.

@@ -43,6 +43,8 @@ public enum Dialogue
     Level5Start,
     Level5End,
     Level4ExitNoti,
+    CutScene1_1,
+    CutScene1_2,
 }
 
 public static class GameConstant

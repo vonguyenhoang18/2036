@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System;
 
 public class MapManager : MonoBehaviour
 {
@@ -30,6 +32,11 @@ public class MapManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Init();
+    }
+
+    private void Start()
+    {
+        EventManager.Instance.OnCutScene1End += LoadGameSceneWithSafeZone;
     }
 
     private void Init()
@@ -82,7 +89,7 @@ public class MapManager : MonoBehaviour
                 _currentLevel = 1;
                 PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
                 InventoryManager.Instance.SetMedKit(0);
-                UIManager.Instance.SetEndingPanel();
+                SceneManager.LoadScene("CutScene1");
             }
             else if (_currentLevel == 2)
             {
@@ -100,5 +107,26 @@ public class MapManager : MonoBehaviour
     {
         Debug.Log($"Lose");
         InitDangerZoneMap();
+    }
+
+    public void SetLevel(int level)
+    {
+        _currentLevel = level;
+        PlayerPrefs.SetInt("CurrentLevel", level);
+    }
+
+    public void LoadGameSceneWithSafeZone()
+    {
+        SceneManager.sceneLoaded += OnGameSceneLoaded;
+        SceneManager.LoadScene("Game");
+    }
+
+    private void OnGameSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "Game") return;
+        SceneManager.sceneLoaded -= OnGameSceneLoaded;
+        dangerZone = FindObjectOfType<DangerZone>(true);
+        safeZone = FindObjectOfType<SafeZone>(true);
+        InitSafeZoneMap();
     }
 }

@@ -26,12 +26,14 @@ public class PopupDialogue : MonoBehaviour
 
     private void OnEnable()
     {
-        CharacterManager.Instance.SetPause(true);
+        if (CharacterManager.Instance != null)
+            CharacterManager.Instance.SetPause(true);
     }
 
     private void OnDisable()
     {
-        CharacterManager.Instance.SetPause(false);
+        if (CharacterManager.Instance != null)
+            CharacterManager.Instance.SetPause(false);
     }
     private void Update()
     {
@@ -110,7 +112,8 @@ public class PopupDialogue : MonoBehaviour
                 _curDialogueIndex++;
                 if (_curDialogueIndex == _curDialogueCount)
                 {
-                    UIManager.Instance.HidePopup();
+                    if (UIManager.Instance != null)
+                        UIManager.Instance.HidePopup();
                     _onEndDialogue?.Invoke();
                     return;
                 }

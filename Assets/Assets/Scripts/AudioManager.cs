@@ -18,7 +18,8 @@ public enum AudioType
     //Music
     m_gameplay,
     m_mainMenu,
-    m_ending
+    m_ending,
+    m_happy,
 }
 
 public class AudioManager : MonoBehaviour
@@ -53,6 +54,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip m_gameplay;
     [SerializeField] private AudioClip m_mainMenu;
     [SerializeField] private AudioClip m_ending;
+    [SerializeField] private AudioClip m_happy;
 
     private bool _musicEnabled = true;
     private bool _soundEnabled = true;
@@ -186,6 +188,7 @@ public class AudioManager : MonoBehaviour
             case AudioType.m_gameplay: return m_gameplay;
             case AudioType.m_mainMenu: return m_mainMenu;
             case AudioType.m_ending: return m_ending;
+            case AudioType.m_happy: return m_happy;
             default: return null;
         }
     }

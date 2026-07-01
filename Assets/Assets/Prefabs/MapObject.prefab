@@ -416,6 +416,7 @@ MonoBehaviour:
   objectsPrefab:
   - {fileID: 1996918701158790540, guid: dfd21d4338816164dad750ff4046cf67, type: 3}
   - {fileID: 8868148606405033415, guid: 1a3f0b475c55add4a8bfd7687512a7fe, type: 3}
+  - {fileID: 8868148606405033415, guid: d849c44a158c0064d96cc925903c0ad3, type: 3}
   edgePrefab: {fileID: 5904871714699418715, guid: 72529cd01a6cab342a40c95ac47fc629, type: 3}
   swampPrefab: {fileID: 8868148606405033415, guid: 4b23bbbc0bb03a04fa8cb9ea4f3a59e7, type: 3}
   smokePrefab: {fileID: 8868148606405033415, guid: 95be7f1d88f2de649ae07137cb161abc, type: 3}
