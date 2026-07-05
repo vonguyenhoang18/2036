@@ -79,8 +79,7 @@ public class CircleVisionController : MonoBehaviour
     public void SetRadius(float radius)
     {
         if (runtimeMat == null) return;
-        outerRadius = radius;
-        runtimeMat.SetFloat("_OuterRadius", radius);
+        innerRadius = radius;
         runtimeMat.SetFloat("_InnerRadius", innerRadius);
         targetImage.SetMaterialDirty();
     }

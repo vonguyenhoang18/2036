@@ -38,7 +38,7 @@ public class DangerZonePanel : MonoBehaviour
             return;
         }
         _maskTween = DOTween.To(
-            () => maskVision.outerRadius,
+            () => maskVision.innerRadius,
             x => maskVision.SetRadius(x),
             targetRadius,
             0.5f

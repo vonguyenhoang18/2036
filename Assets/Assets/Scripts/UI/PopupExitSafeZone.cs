@@ -1,7 +1,5 @@
 using System.Runtime.CompilerServices;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PopupExitSafeZone : MonoBehaviour
 {
@@ -9,8 +7,12 @@ public class PopupExitSafeZone : MonoBehaviour
     {
         AudioManager.Instance.PlaySound(AudioType.s_click);
         UIManager.Instance.HidePopup();
-        MapManager.Instance.InitDangerZoneMap();
-        CharacterManager.Instance.SetPause(false);
+        GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+        loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
+            UIManager.Instance.HidePopup();
+            MapManager.Instance.InitDangerZoneMap();
+            CharacterManager.Instance.SetPause(false);
+        });
     }
 
     public void OnNoBtn()

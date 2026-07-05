@@ -65,8 +65,12 @@
                 float inner = _InnerRadius;
                 float outer = _OuterRadius;
 
-                float t = saturate((dist - inner) / (outer - inner));
-                float alpha = smoothstep(0.0, 1.0, t);
+                // Band 1: 0.9*inner → inner, alpha 0 → 0.99
+                float t1 = saturate((dist - inner * 0.9) / max(inner * 0.1, 1e-5));
+                // Band 2: inner → outer, alpha 0.99 → 1
+                float t2 = saturate((dist - inner) / max(outer - inner, 1e-5));
+                float alpha = 0.99 * smoothstep(0.0, 1.0, t1)
+                            + 0.01 * smoothstep(0.0, 1.0, t2);
                 return float4(_Color.rgb, alpha * _Color.a);
             }
             ENDCG

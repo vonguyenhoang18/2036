@@ -71,7 +71,7 @@ MonoBehaviour:
         - Finally, we reach to the Shelter.
   - key: 4
     entries:
-    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
       charRight: {fileID: 0}
       messages:
       - isLeft: 1
@@ -80,8 +80,8 @@ MonoBehaviour:
         - I need to find where the sound comes from first.
   - key: 5
     entries:
-    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
-      charRight: {fileID: 21300000, guid: 14374d220943a5a4485535584230216e, type: 3}
+    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+      charRight: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
       messages:
       - isLeft: 0
         title: Profs
@@ -93,8 +93,8 @@ MonoBehaviour:
         - Oh. The air here is so clean.
   - key: 6
     entries:
-    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
-      charRight: {fileID: 21300000, guid: 14374d220943a5a4485535584230216e, type: 3}
+    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+      charRight: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
       messages:
       - isLeft: 0
         title: Profs
@@ -121,7 +121,7 @@ MonoBehaviour:
         - Come talk to me when you're ready.
   - key: 7
     entries:
-    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
+    - charLeft: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
       charRight: {fileID: 0}
       messages:
       - isLeft: 1
@@ -131,8 +131,8 @@ MonoBehaviour:
           finish here."
   - key: 8
     entries:
-    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
-      charRight: {fileID: 21300000, guid: 14374d220943a5a4485535584230216e, type: 3}
+    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+      charRight: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
       messages:
       - isLeft: 0
         title: Profs

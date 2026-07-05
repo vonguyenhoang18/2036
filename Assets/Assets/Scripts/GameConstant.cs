@@ -74,8 +74,8 @@ public static class GameConstant
 
     public const int ITEM_GAP = 3;
 
-    public const float MASK_RADIUS_ON = 0.142f;
-    public const float MASK_RADIUS_OFF = 0.5f;
+    public const float MASK_RADIUS_ON = 0.14f;
+    public const float MASK_RADIUS_OFF = 0.44f;
 
     public const float KNOCKBACK_DISTANCE = 2f;
     public const float KNOCKBACK_DURATION = 0.5f;
