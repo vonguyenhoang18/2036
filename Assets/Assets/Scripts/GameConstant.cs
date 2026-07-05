@@ -8,6 +8,7 @@ public enum ObjectType
     Swamp,
     Smoke,
     NPCA,
+    ExitSafeZone,
 }
 
 public enum Direction
@@ -34,17 +35,22 @@ public enum Popup
     Result,
     Tutorial2,
     Dialogue,
+    ExitSafeZone,
 }
 
-public enum Dialogue
+public enum Checkpoint
 {
-    Level4Start,
-    Level4NPCA,
-    Level5Start,
-    Level5End,
-    Level4ExitNoti,
+    Level4_Start,
+    Level4_NPCA,
+    Level5_Start,
+    Level5_End,
+    Level4_Exit,
     CutScene1_1,
     CutScene1_2,
+    SafeZone_Exit,
+    SafeZone_NPCA,
+    Level6,
+    Level1,
 }
 
 public static class GameConstant
@@ -62,8 +68,6 @@ public static class GameConstant
     public const float DRAIN_MASK_ON_AMOUNT = 0.33f;
     public const float DRAIN_MASK_OFF_AMOUNT = 3f;
     public const float DAMAGE_OVER_TIME_AMOUNT = 5f;
-
-    public const int LEVEL_PROLOUGE_COUNT = 5;
 
     public const int SAFE_ZONE_COLUMNS = 11;
     public const int SAFE_ZONE_ROWS = 11;

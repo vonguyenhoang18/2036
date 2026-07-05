@@ -6,16 +6,16 @@ public class DialogueConfig : ScriptableObject
 {
     public List<DialogueSequence> allDialogues = new();
 
-    private Dictionary<Dialogue, List<DialogueEntry>> _lookup;
+    private Dictionary<Checkpoint, List<DialogueEntry>> _lookup;
 
     private void BuildLookup()
     {
-        _lookup = new Dictionary<Dialogue, List<DialogueEntry>>();
+        _lookup = new Dictionary<Checkpoint, List<DialogueEntry>>();
         foreach (var sequence in allDialogues)
             _lookup[sequence.key] = sequence.entries;
     }
 
-    public List<DialogueEntry> GetDialogue(Dialogue key)
+    public List<DialogueEntry> GetDialogue(Checkpoint key)
     {
         if (_lookup == null) BuildLookup();
         return _lookup.TryGetValue(key, out var entries) ? entries : null;
@@ -25,7 +25,7 @@ public class DialogueConfig : ScriptableObject
 [System.Serializable]
 public class DialogueSequence
 {
-    public Dialogue key;
+    public Checkpoint key;
     public List<DialogueEntry> entries = new();
 }
 

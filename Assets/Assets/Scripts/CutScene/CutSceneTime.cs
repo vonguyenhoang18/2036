@@ -77,7 +77,7 @@ public class CutSceneTime : MonoBehaviour
     public void RunCutScene1_1()
     {
         GameObject go = ShowPopup(Popup.Dialogue);
-        go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.CutScene1_1, () =>
+        go.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.CutScene1_1, () =>
         {
             HidePopup();
             Resume();
@@ -94,7 +94,7 @@ public class CutSceneTime : MonoBehaviour
     public void RunCutScene1_2()
     {
         GameObject go = ShowPopup(Popup.Dialogue);
-        go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.CutScene1_2, () =>
+        go.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.CutScene1_2, () =>
         {
             HidePopup();
             Resume();
@@ -105,6 +105,7 @@ public class CutSceneTime : MonoBehaviour
                 loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
                     UIManager.Instance.HidePopup();
                     MapManager.Instance.InitSafeZoneMap();
+                    CheckpointManager.Instance.SetCheckpoint(Checkpoint.SafeZone_Exit);
                 });
             }
 

@@ -64,6 +64,12 @@ public class CharacterManager : MonoBehaviour
         SetPause(false);
     }
 
+    public void ChangeMaskState(bool state)
+    {
+        IsMaskOn = state;
+        SetMaskState();
+    }
+
     private void SetMaskState()
     {
         mask.SetActive(IsMaskOn);

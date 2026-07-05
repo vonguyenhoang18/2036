@@ -48,3 +48,10 @@ MonoBehaviour:
     obstacleCount: 45
     swampCount: 15
     smokeCount: 13
+  - levelId: 6
+    columns: 19
+    rows: 19
+    medkitCount: 1
+    obstacleCount: 10
+    swampCount: 1
+    smokeCount: 1

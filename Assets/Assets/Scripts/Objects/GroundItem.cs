@@ -13,29 +13,30 @@ public class GroundItem : MonoBehaviour
         switch (itemType)
         {
             case ObjectType.Exit:
-                if (!MapManager.Instance.FinishObjective)
+                if (CheckpointManager.Instance.IsCheckpoint(Checkpoint.Level4_Start))
                 {
-                    if (MapManager.Instance.CurrentLevel == 4)
+                    GameObject exitNoti = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                    exitNoti.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level4_Exit, () =>
                     {
-                        GameObject exitNoti = UIManager.Instance.ShowPopup(Popup.Dialogue);
-                        exitNoti.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level4ExitNoti, () => { });
-                    }
+                        Vector2 knockbackDir = ((Vector2)other.transform.position - (Vector2)transform.position).normalized;
+                        CharacterManager.Instance.Knockback(knockbackDir);
+                        CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level4_NPCA);
+                    });
                     return;
                 }
-
-                if (MapManager.Instance.CurrentLevel == 5)
+                else if (CheckpointManager.Instance.IsCheckpoint(Checkpoint.Level5_Start))
                 {
                     GameObject dialogue5 = UIManager.Instance.ShowPopup(Popup.Dialogue);
-                    dialogue5.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level5End, () =>
+                    dialogue5.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level5_End, () =>
                     {
                         GameObject go = UIManager.Instance.ShowPopup(Popup.Result);
                         go.GetComponent<PopupResult>().ShowResult(true);
                     });
+                    return;
                 }
-                else {
-                    GameObject go = UIManager.Instance.ShowPopup(Popup.Result);
-                        go.GetComponent<PopupResult>().ShowResult(true);
-                }
+
+                GameObject go = UIManager.Instance.ShowPopup(Popup.Result);
+                go.GetComponent<PopupResult>().ShowResult(true);
                 break;
             case ObjectType.Medkit:
                 CharacterManager.Instance.AddItemCount();
@@ -55,13 +56,39 @@ public class GroundItem : MonoBehaviour
             case ObjectType.NPCA:
                 float dirX = other.transform.position.x > transform.position.x ? 1f : -1f;
                 transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
-                Transform characterTransform = other.transform;
-                GameObject dialogue4 = UIManager.Instance.ShowPopup(Popup.Dialogue);
-                dialogue4.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level4NPCA, () =>
+
+                if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.Level4_Start, Checkpoint.Level4_NPCA))
                 {
-                    MapManager.Instance.FinishObjective = true;
-                    StartCoroutine(MoveToCharacterAndDestroy(characterTransform));
-                });
+                    Transform characterTransform = other.transform;
+                    GameObject dialogue4 = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                    dialogue4.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level4_NPCA, () =>
+                    {
+                        CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level4_Exit);
+                        StartCoroutine(MoveToCharacterAndDestroy(characterTransform));
+                    });
+                }
+                else if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.SafeZone_Exit, Checkpoint.Level6))
+                {
+                    GameObject dialogueSZ = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                    dialogueSZ.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.SafeZone_NPCA, () =>
+                    {
+                        CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level6);
+                    });
+                }
+                break;
+            case ObjectType.ExitSafeZone:
+                if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.SafeZone_Exit, Checkpoint.SafeZone_NPCA))
+                {
+                    GameObject dialogueSZ = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                    dialogueSZ.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.SafeZone_Exit, () =>
+                    {
+                        Vector2 knockbackDir = ((Vector2)other.transform.position - (Vector2)transform.position).normalized;
+                        CharacterManager.Instance.Knockback(knockbackDir);
+                    });
+                    return;
+                }
+                UIManager.Instance.ShowPopup(Popup.ExitSafeZone);
+                CharacterManager.Instance.SetPause(true);
                 break;
             default:
                 break;
@@ -72,7 +99,7 @@ public class GroundItem : MonoBehaviour
     {
         AudioManager.Instance.PlaySound(AudioType.s_thud);
         float speed = 5f;
-        Vector2 targetPos = new Vector2(target.position.x, target.position.y + 1f);
+        Vector2 targetPos = new Vector2(target.position.x, target.position.y);
         while (target != null && Vector2.Distance(transform.position, targetPos) > 0.1f)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 
 public class MapManager : MonoBehaviour
 {
@@ -17,8 +16,6 @@ public class MapManager : MonoBehaviour
 
     private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
-
-    public bool FinishObjective = true;
 
     private void Awake()
     {
@@ -48,18 +45,25 @@ public class MapManager : MonoBehaviour
         CharacterManager.Instance.Init();
         UIManager.Instance.SetDangerZonePanel();
         CameraManager.Instance.InitDangerZone();
+        CharacterManager.Instance.ChangeMaskState(true);
 
-        if (_currentLevel == 4)
+        if (_currentLevel == 1)
+        {
+            CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level1);
+        }
+        else if (_currentLevel == 4)
         {
             // Level 4 show dialogue
             GameObject go = UIManager.Instance.ShowPopup(Popup.Dialogue);
-            go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level4Start);
+            go.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level4_Start);
+            CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level4_Start);
         }
-        if (_currentLevel == 5)
+        else if (_currentLevel == 5)
         {
             // Level 5 show dialogue
             GameObject go = UIManager.Instance.ShowPopup(Popup.Dialogue);
-            go.GetComponent<PopupDialogue>().SetDialogue(Dialogue.Level5Start);
+            go.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level5_Start);
+            CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level5_Start);
         }
     }
 
@@ -72,6 +76,7 @@ public class MapManager : MonoBehaviour
         CharacterManager.Instance.Init();
         UIManager.Instance.SetSafeZonePanel();
         CameraManager.Instance.InitSafeZone();
+        CharacterManager.Instance.ChangeMaskState(false);
     }
 
     public void WinLevel()
@@ -80,16 +85,23 @@ public class MapManager : MonoBehaviour
         PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
-            if (_currentLevel > GameConstant.LEVEL_PROLOUGE_COUNT)
-            {
-                InventoryManager.Instance.SetMedKit(0);
-                SceneManager.LoadScene("CutScene1");
-            }
-            else if (_currentLevel == 2)
+            if (_currentLevel == 2)
             {
                 UIManager.Instance.HidePopup();
                 // Level 2 show tutorial medkit
                 UIManager.Instance.ShowPopup(Popup.Tutorial2);
+            }
+            else if (_currentLevel == 6)
+            {
+                InventoryManager.Instance.SetMedKit(0);
+                SceneManager.LoadScene("CutScene1");
+            }
+            else if (_currentLevel > 6)
+            {
+                _currentLevel--;
+                PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
+                UIManager.Instance.HidePopup();
+                InitSafeZoneMap();
             }
             else
             {

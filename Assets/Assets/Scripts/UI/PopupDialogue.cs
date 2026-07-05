@@ -43,7 +43,7 @@ public class PopupDialogue : MonoBehaviour
         }
     }
 
-    public void SetDialogue(Dialogue dialogue, Action onEndDialogue = null)
+    public void SetDialogue(Checkpoint dialogue, Action onEndDialogue = null)
     {
         _onEndDialogue = null;
         if (onEndDialogue != null)

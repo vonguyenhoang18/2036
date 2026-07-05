@@ -78,7 +78,6 @@ public class DangerZone : MonoBehaviour
         InitExit();
         if (MapManager.Instance.CurrentLevel == 4)
         {
-            MapManager.Instance.FinishObjective = false;
             InitNPCA();
         }
         InitMedKits();

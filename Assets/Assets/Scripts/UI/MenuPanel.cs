@@ -40,6 +40,10 @@ public class MenuPanel : MonoBehaviour
             {
                 UIManager.Instance.ShowPopup(Popup.Tutorial);
             }
+            else if (MapManager.Instance.CurrentLevel > 5)
+            {
+                MapManager.Instance.InitSafeZoneMap();
+            }
             else
             {
                 MapManager.Instance.InitDangerZoneMap();
