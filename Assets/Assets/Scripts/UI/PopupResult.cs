@@ -30,7 +30,9 @@ public class PopupResult : MonoBehaviour
         AudioManager.Instance.PlaySound(AudioType.s_click);
         MapManager.Instance.LoseLevel();
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
-        loading.GetComponent<LoadingPanel>().EndLoading(1f, () => { });
+        loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
+            UIManager.Instance.HidePopup();
+        });
     }
 
     public void OnMainMenuBtn()
@@ -39,6 +41,7 @@ public class PopupResult : MonoBehaviour
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
         {
+            UIManager.Instance.HidePopup();
             UIManager.Instance.SetMenuPanel();
         });
     }

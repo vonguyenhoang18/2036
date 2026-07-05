@@ -36,7 +36,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SetMenuPanel();
+        if (menuPanel != null)
+        {
+            SetMenuPanel();
+        }
     }
 
     private void DisableAllUI()

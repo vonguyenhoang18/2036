@@ -36,10 +36,6 @@ public class InventoryManager : MonoBehaviour
             _medkitCount--;
             UIManager.Instance.DangerZonePanel.UpdateMedkitCount(_medkitCount);
         }
-        else
-        {
-            Debug.Log("No medkits available to use.");
-        }
     }
 
     public bool CanUseMedkit()

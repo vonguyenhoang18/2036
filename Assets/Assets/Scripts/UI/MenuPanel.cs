@@ -35,6 +35,7 @@ public class MenuPanel : MonoBehaviour
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
         {
+            UIManager.Instance.HidePopup();
             if (MapManager.Instance.CurrentLevel == 1)
             {
                 UIManager.Instance.ShowPopup(Popup.Tutorial);
@@ -54,6 +55,7 @@ public class MenuPanel : MonoBehaviour
             GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
             loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
             {
+                UIManager.Instance.HidePopup();
                 MapManager.Instance.InitDangerZoneMap();
             });
         }

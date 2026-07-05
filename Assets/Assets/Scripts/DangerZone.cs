@@ -75,7 +75,6 @@ public class DangerZone : MonoBehaviour
             }
         }
 
-        Debug.Log($"DevHoang CurrentLevel {MapManager.Instance.CurrentLevel}");
         InitExit();
         if (MapManager.Instance.CurrentLevel == 4)
         {

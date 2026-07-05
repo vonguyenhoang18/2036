@@ -40,7 +40,6 @@ public class CutSceneTime : MonoBehaviour
         if (nextIndex < sortedActions.Count && timer >= sortedActions[nextIndex].action.triggerTime)
         {
             var (unit, action) = sortedActions[nextIndex];
-            Debug.Log($"!@#DevHoang {action.triggerTime} - {timer}");
             nextIndex++;
 
             if (action.type == CutSceneAction.ActionType.Show)
@@ -99,7 +98,18 @@ public class CutSceneTime : MonoBehaviour
         {
             HidePopup();
             Resume();
-            EventManager.Instance.TriggerCutScene1End();
+            void OnGameLoaded(Scene scene, LoadSceneMode mode)
+            {
+                SceneManager.sceneLoaded -= OnGameLoaded;
+                GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
+                loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
+                    UIManager.Instance.HidePopup();
+                    MapManager.Instance.InitSafeZoneMap();
+                });
+            }
+
+            SceneManager.sceneLoaded += OnGameLoaded;
+            SceneManager.LoadScene("Game");
         });
     }
 }

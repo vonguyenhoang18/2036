@@ -13,6 +13,7 @@ public class CharacterManager : MonoBehaviour
 
     [SerializeField] private GameObject mask;
     [SerializeField] private Transform character;
+    public Transform Character => character;
     [SerializeField] private SpriteRenderer characterRenderer;
     [SerializeField] private Animator characterAnimator;
     [SerializeField] private ParticleSystem healingEffect;

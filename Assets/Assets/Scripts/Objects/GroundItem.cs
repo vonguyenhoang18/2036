@@ -64,7 +64,6 @@ public class GroundItem : MonoBehaviour
                 });
                 break;
             default:
-                Debug.LogWarning("Unknown item type encountered.");
                 break;
         }
     }

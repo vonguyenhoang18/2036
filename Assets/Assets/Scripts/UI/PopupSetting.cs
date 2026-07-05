@@ -74,6 +74,7 @@ public class PopupSetting : MonoBehaviour
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () =>
         {
+            UIManager.Instance.HidePopup();
             UIManager.Instance.SetMenuPanel();
         });
     }

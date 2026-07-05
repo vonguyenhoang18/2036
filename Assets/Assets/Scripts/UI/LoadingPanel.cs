@@ -40,7 +40,6 @@ public class LoadingPanel : MonoBehaviour
             _duration += Time.deltaTime;
             if (_duration >= _endDuration)
             {
-                UIManager.Instance.HidePopup();
                 _callback.Invoke();
             }
         }

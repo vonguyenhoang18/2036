@@ -4,6 +4,8 @@ using UnityEngine;
 [CustomEditor(typeof(MapManager))]
 public class MapManagerEditor : Editor
 {
+    private int _targetLevel;
+
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -11,11 +13,12 @@ public class MapManagerEditor : Editor
         MapManager manager = (MapManager)target;
 
         GUILayout.Space(8);
-        if (GUILayout.Button("Level +1"))
+        GUILayout.Label("Set Level");
+        _targetLevel = EditorGUILayout.IntField("Level", _targetLevel);
+        if (GUILayout.Button("Set Level"))
         {
-            int next = manager.CurrentLevel + 1;
-            manager.SetLevel(next);
-            Debug.Log($"CurrentLevel set to {next}");
+            manager.SetLevel(_targetLevel);
+            Debug.Log($"!@# CurrentLevel set to {_targetLevel}");
         }
     }
 }

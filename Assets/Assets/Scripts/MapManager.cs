@@ -34,11 +34,6 @@ public class MapManager : MonoBehaviour
         Init();
     }
 
-    private void Start()
-    {
-        EventManager.Instance.OnCutScene1End += LoadGameSceneWithSafeZone;
-    }
-
     private void Init()
     {
         _currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
@@ -52,6 +47,7 @@ public class MapManager : MonoBehaviour
         dangerZone.InitMap();
         CharacterManager.Instance.Init();
         UIManager.Instance.SetDangerZonePanel();
+        CameraManager.Instance.InitDangerZone();
 
         if (_currentLevel == 4)
         {
@@ -75,29 +71,29 @@ public class MapManager : MonoBehaviour
         safeZone.InitMap();
         CharacterManager.Instance.Init();
         UIManager.Instance.SetSafeZonePanel();
+        CameraManager.Instance.InitSafeZone();
     }
 
     public void WinLevel()
     {
-        Debug.Log($"Win");
         _currentLevel++;
         PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
         GameObject loading = UIManager.Instance.ShowPopup(Popup.Loading);
         loading.GetComponent<LoadingPanel>().EndLoading(1f, () => {
             if (_currentLevel > GameConstant.LEVEL_PROLOUGE_COUNT)
             {
-                _currentLevel = 1;
-                PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
                 InventoryManager.Instance.SetMedKit(0);
                 SceneManager.LoadScene("CutScene1");
             }
             else if (_currentLevel == 2)
             {
+                UIManager.Instance.HidePopup();
                 // Level 2 show tutorial medkit
                 UIManager.Instance.ShowPopup(Popup.Tutorial2);
             }
             else
             {
+                UIManager.Instance.HidePopup();
                 InitDangerZoneMap();
             }
         });
@@ -105,7 +101,6 @@ public class MapManager : MonoBehaviour
 
     public void LoseLevel()
     {
-        Debug.Log($"Lose");
         InitDangerZoneMap();
     }
 
@@ -113,20 +108,5 @@ public class MapManager : MonoBehaviour
     {
         _currentLevel = level;
         PlayerPrefs.SetInt("CurrentLevel", level);
-    }
-
-    public void LoadGameSceneWithSafeZone()
-    {
-        SceneManager.sceneLoaded += OnGameSceneLoaded;
-        SceneManager.LoadScene("Game");
-    }
-
-    private void OnGameSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name != "Game") return;
-        SceneManager.sceneLoaded -= OnGameSceneLoaded;
-        dangerZone = FindObjectOfType<DangerZone>(true);
-        safeZone = FindObjectOfType<SafeZone>(true);
-        InitSafeZoneMap();
     }
 }
