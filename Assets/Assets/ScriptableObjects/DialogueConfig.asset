@@ -22,7 +22,7 @@ MonoBehaviour:
         title: ???
         messages:
         - Help me...!
-    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
       charRight: {fileID: 0}
       messages:
       - isLeft: 1
@@ -32,7 +32,7 @@ MonoBehaviour:
         - Maybe someone needs help. Let's seek them out.
   - key: 1
     entries:
-    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
       charRight: {fileID: 21300000, guid: 5dd4ead9871b9bc41be0f2a49c678292, type: 3}
       messages:
       - isLeft: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
         - Finally, we reach to the Shelter.
   - key: 4
     entries:
-    - charLeft: {fileID: 21300000, guid: d9fed97f5551de44e85ab70e1bc28e69, type: 3}
+    - charLeft: {fileID: 21300000, guid: e39b47009a773384db244d6222608cae, type: 3}
       charRight: {fileID: 0}
       messages:
       - isLeft: 1
