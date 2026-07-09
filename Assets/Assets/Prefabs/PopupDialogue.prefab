@@ -452,6 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8371897553573630520}
   - component: {fileID: 2349179327139230201}
+  - component: {fileID: 2094184393232694422}
   m_Layer: 5
   m_Name: PopupDialogue
   m_TagString: Untagged
@@ -499,6 +500,19 @@ MonoBehaviour:
   titleTxt: {fileID: 1583757313835495443}
   messageTxt: {fileID: 2316461675319063848}
   dialogueConfig: {fileID: 11400000, guid: 904c731451fea1a4bab19bf40701333d, type: 2}
+  startDelay: 0.5
+--- !u!225 &2094184393232694422
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3300238034500372170}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3546139188513955879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1036,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press "Space" to continue
+  m_text: Press "E" to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7143f22c2ab0b2b4391efc7468622a24, type: 2}
   m_sharedMaterial: {fileID: -7499152362236815594, guid: 7143f22c2ab0b2b4391efc7468622a24, type: 2}

@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,12 @@ public class PopupResult : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleTxt;
     [SerializeField] private Button nextLevelBtn;
     [SerializeField] private Button retryBtn;
+    [SerializeField] private PanelAnim panelAnim;
+
+    private void OnEnable()
+    {
+	    panelAnim.ShowPanel();
+    }
 
     public void ShowResult(bool isWin)
     {

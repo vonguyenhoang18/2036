@@ -69,8 +69,8 @@
                 float t1 = saturate((dist - inner * 0.9) / max(inner * 0.1, 1e-5));
                 // Band 2: inner → outer, alpha 0.99 → 1
                 float t2 = saturate((dist - inner) / max(outer - inner, 1e-5));
-                float alpha = 0.99 * smoothstep(0.0, 1.0, t1)
-                            + 0.01 * smoothstep(0.0, 1.0, t2);
+                float alpha = 0.97 * smoothstep(0.0, 1.0, t1)
+                            + 0.03 * smoothstep(0.0, 1.0, t2);
                 return float4(_Color.rgb, alpha * _Color.a);
             }
             ENDCG

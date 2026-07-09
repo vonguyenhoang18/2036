@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -87,6 +88,12 @@ public class CutSceneTime : MonoBehaviour
     public void RunCutScene1_ShowHeart()
     {
         clipCutScene1.Play();
+        StartCoroutine(ShowHeartRoutine());
+    }
+
+    private IEnumerator ShowHeartRoutine()
+    {
+        yield return new WaitForSeconds(1f);
         AudioManager.Instance.PlaySound(AudioType.m_happy);
         Resume();
     }

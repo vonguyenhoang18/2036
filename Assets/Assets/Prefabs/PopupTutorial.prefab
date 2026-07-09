@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 2397522121490395959}
   - component: {fileID: 8067861419920796807}
   - component: {fileID: 4868716817460814248}
+  - component: {fileID: 6865118712522514748}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -351,6 +352,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6865118712522514748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372201221535778561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065284ebfb2d242839c496ddbdaada6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextReveal
 --- !u!1 &472336113035786186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1032,7 @@ GameObject:
   - component: {fileID: 1715013270336610885}
   - component: {fileID: 7021917515688680751}
   - component: {fileID: 3175313617039006116}
+  - component: {fileID: 571334276722985473}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1163,6 +1177,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &571334276722985473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3992902828582745442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065284ebfb2d242839c496ddbdaada6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextReveal
 --- !u!1 &4080651864677014501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1525,7 @@ GameObject:
   - component: {fileID: 1212317456582438011}
   - component: {fileID: 6854795245164928087}
   - component: {fileID: 319193675620015670}
+  - component: {fileID: 8616086253382724838}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1629,6 +1656,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8616086253382724838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5879055018736793003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065284ebfb2d242839c496ddbdaada6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextReveal
 --- !u!1 &6901860434032685095
 GameObject:
   m_ObjectHideFlags: 0

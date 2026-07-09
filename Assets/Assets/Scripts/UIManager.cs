@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -96,12 +97,31 @@ public class UIManager : MonoBehaviour
     {
         ClearPopup();
         GameObject go = Instantiate(popups[(int)popup], popupContent);
+        CanvasGroup cg = go.GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.alpha = 0f;
+            cg.DOFade(1f, 0.3f);
+        }
         return go;
     }
 
     public void HidePopup()
     {
-        ClearPopup();
+        foreach (Transform child in popupContent)
+        {
+            GameObject go = child.gameObject;
+            CanvasGroup cg = go.GetComponent<CanvasGroup>();
+            if (cg != null)
+            {
+                cg.DOKill();
+                cg.DOFade(0f, 0.25f).OnComplete(() => Destroy(go));
+            }
+            else
+            {
+                Destroy(go);
+            }
+        }
     }
 
     private void ClearPopup()

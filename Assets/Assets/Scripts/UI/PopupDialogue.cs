@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class PopupDialogue : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleTxt;
     [SerializeField] private TextMeshProUGUI messageTxt;
     [SerializeField] private DialogueConfig dialogueConfig;
+    [SerializeField] private float startDelay = 0.5f;
+
+    private Coroutine _typeCoroutine;
+    private bool _isTyping;
 
     private List<DialogueEntry> _curDialogue = new();
     private int _curDialogueIndex = 0;
@@ -37,7 +42,7 @@ public class PopupDialogue : MonoBehaviour
     }
     private void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             OnContinueBtn();
         }
@@ -93,16 +98,65 @@ public class PopupDialogue : MonoBehaviour
         charLeftShadow.gameObject.SetActive(!messageEntry.isLeft);
         charRightShadow.gameObject.SetActive(messageEntry.isLeft);
         titleTxt.text = messageEntry.title;
-        messageTxt.text = messageEntry.messages[_curMessageIndex];
 
         float scale = GameConstant.DIALOGUE_SCALE;
         charLeft.transform.localScale = messageEntry.isLeft ? new Vector3(scale, scale, 1f) : new Vector3(1f, 1f, 1f);
         charRight.transform.localScale = messageEntry.isLeft ? new Vector3(-1f, 1f, 1f) : new Vector3(-scale, scale, 1f);
+
+        TypeMessage(messageEntry.messages[_curMessageIndex]);
+    }
+
+    private void TypeMessage(string message)
+    {
+        if (_typeCoroutine != null)
+            StopCoroutine(_typeCoroutine);
+        _typeCoroutine = StartCoroutine(TypeMessageRoutine(message));
+    }
+
+    private IEnumerator TypeMessageRoutine(string message)
+    {
+        _isTyping = true;
+        messageTxt.text = message;
+        messageTxt.ForceMeshUpdate();
+
+        int totalChars = messageTxt.textInfo.characterCount;
+        messageTxt.maxVisibleCharacters = 0;
+
+        if (startDelay > 0f)
+            yield return new WaitForSeconds(startDelay);
+
+        for (int visible = 1; visible <= totalChars; visible++)
+        {
+            messageTxt.maxVisibleCharacters = visible;
+            yield return null;
+        }
+
+        _isTyping = false;
+        _typeCoroutine = null;
+    }
+
+    private void CompleteTyping()
+    {
+        if (_typeCoroutine != null)
+        {
+            StopCoroutine(_typeCoroutine);
+            _typeCoroutine = null;
+        }
+        messageTxt.maxVisibleCharacters = int.MaxValue;
+        _isTyping = false;
     }
 
     public void OnContinueBtn()
     {
         AudioManager.Instance.PlaySound(AudioType.s_click);
+
+        // First press while typing reveals the whole line instead of advancing.
+        if (_isTyping)
+        {
+            CompleteTyping();
+            return;
+        }
+
         _curMessageIndex++;
         if (_curMessageIndex == _curMessageCount)
         {
