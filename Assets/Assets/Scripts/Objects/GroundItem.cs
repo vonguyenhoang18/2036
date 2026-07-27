@@ -67,13 +67,18 @@ public class GroundItem : MonoBehaviour
                         StartCoroutine(MoveToCharacterAndDestroy(characterTransform));
                     });
                 }
-                else if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.SafeZone_Exit, Checkpoint.Level6))
+                else if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.SafeZone_Exit, Checkpoint.SafeZone_NPCA))
                 {
                     GameObject dialogueSZ = UIManager.Instance.ShowPopup(Popup.Dialogue);
                     dialogueSZ.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.SafeZone_NPCA, () =>
                     {
                         CheckpointManager.Instance.SetCheckpoint(Checkpoint.Level6);
                     });
+                }
+                else if (CheckpointManager.Instance.IsFromCheckpointToCheckpoint(Checkpoint.SafeZone_NPCA, Checkpoint.Level6))
+                {
+                    GameObject dialogueSZ = UIManager.Instance.ShowPopup(Popup.Dialogue);
+                    dialogueSZ.GetComponent<PopupDialogue>().SetDialogue(Checkpoint.Level6);
                 }
                 break;
             case ObjectType.ExitSafeZone:

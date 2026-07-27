@@ -43,6 +43,7 @@ public class MapManager : MonoBehaviour
 
         dangerZone.InitMap();
         CharacterManager.Instance.Init();
+        CharacterManager.Instance.SetSafeZone(false);
         UIManager.Instance.SetDangerZonePanel();
         CameraManager.Instance.InitDangerZone();
         CharacterManager.Instance.ChangeMaskState(true);
@@ -74,6 +75,7 @@ public class MapManager : MonoBehaviour
 
         safeZone.InitMap();
         CharacterManager.Instance.Init();
+        CharacterManager.Instance.SetSafeZone(true);
         UIManager.Instance.SetSafeZonePanel();
         CameraManager.Instance.InitSafeZone();
         CharacterManager.Instance.ChangeMaskState(false);

@@ -22,6 +22,7 @@ public class CharacterManager : MonoBehaviour
     private float _drainTimer = 0f;
     private float _damagedTimer = 0f;
     private bool _isPaused = true;
+    private bool _isSafeZone = false;
 
     public bool IsPaused => _isPaused;
     private void Awake()
@@ -42,6 +43,7 @@ public class CharacterManager : MonoBehaviour
     private void Update()
     {
         if (_isPaused) return;
+        if (_isSafeZone) return;
 
         DrainHpOverTime();
         DamageOverTime();
@@ -189,6 +191,8 @@ public class CharacterManager : MonoBehaviour
 
     public void DamageOnce()
     {
+        if (_isSafeZone) return;
+
         AddHp(-GameConstant.DAMAGE_AMOUNT);
         AudioManager.Instance.PlaySound(AudioType.s_hurt);
         StartCoroutine(DamageFlashRoutine());
@@ -254,6 +258,15 @@ public class CharacterManager : MonoBehaviour
         if (_isPaused)
         {
             ChangeSpeed(0, 0);
+        }
+    }
+
+    public void SetSafeZone(bool state)
+    {
+        _isSafeZone = state;
+        if (_isSafeZone)
+        {
+            SetDamagedState(false);
         }
     }
 }
